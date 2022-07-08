@@ -1,5 +1,0 @@
-service\Implement\HDFSServiceImpl.class
-configuration\HadoopHDFSConfiguration.class
-Controller\HDFSController.class
-main\DemoApplication.class
-service\HDFSService.class

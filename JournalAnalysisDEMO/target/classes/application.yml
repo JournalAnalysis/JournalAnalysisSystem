@@ -1,4 +1,14 @@
-hdfs:
-  hdfsPath: hdfs://192.168.146.130:8020
-  hdfsName: node01
-  hdfsUser: root
+server:
+  port: 8081
+
+spring:
+  datasource:
+    name : Elebus
+    url : jdbc:mysql://localhost:3306/web_test?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=UTC
+    username : root
+    password : Book091212
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    initialization-mode: always
+
+file:
+  upload-dir: ./uploads
