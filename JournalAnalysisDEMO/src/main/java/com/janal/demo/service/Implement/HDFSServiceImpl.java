@@ -1,4 +1,4 @@
-package service.Implement;
+package com.janal.demo.service.Implement;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hadoop.fs.FSDataOutputStream;
@@ -12,7 +12,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import service.HDFSService;
+import com.janal.demo.service.HDFSService;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
