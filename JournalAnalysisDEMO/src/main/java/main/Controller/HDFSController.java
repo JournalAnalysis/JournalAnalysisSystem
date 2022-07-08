@@ -1,10 +1,10 @@
-package Controller;
+package main.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
-import service.HDFSService;
+import main.service.HDFSService;
 
 @Controller
 public class HDFSController {
@@ -15,5 +15,6 @@ public class HDFSController {
     @PostMapping(value="/upload")
     public void getFile(MultipartFile file){
     String path="hdfs://input";
+
     }
 }
