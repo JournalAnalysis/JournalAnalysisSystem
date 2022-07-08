@@ -1,0 +1,4 @@
+main\DemoApplication.class
+configuration\hadoopHDFSConfiguration.class
+service\hdfsService.class
+service\Implement\hdfsServiceImpl.class
