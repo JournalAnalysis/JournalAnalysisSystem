@@ -22,6 +22,7 @@ public class LoginController{
     @Autowired
     private UserRepository userRepository;
 
+
     @PostMapping("/login")
     public String Login(@RequestBody User user){
         String uname;
