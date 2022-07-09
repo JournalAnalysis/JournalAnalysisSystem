@@ -16,4 +16,5 @@ spring:
     initialization-mode: always
 
 file:
-  upload-dir: ./uploads
+  upload-dir: ./JournalAnalysisDEMO/uploads
+#  upload-dir: ./uploads
