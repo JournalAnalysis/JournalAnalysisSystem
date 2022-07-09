@@ -14,9 +14,6 @@ public class User {
         this.ccode = ccode;
     }
 
-    private String ccode;
-
-
     public String getUname() {
         return uname;
     }
@@ -29,23 +26,23 @@ public class User {
     private String uname;
 
     public String getPassword() {
-        return password;
+        return upassword;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.upassword = password;
     }
 
-    private String password;
+    private String upassword;
 
-    private String email;
+    private String uemail;
 
     public String getEmail() {
-        return email;
+        return uemail;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.uemail = email;
     }
 
     public String getCname() {
@@ -57,19 +54,19 @@ public class User {
     }
 
     public String getAuth() {
-        return auth;
+        return uauth;
     }
 
     public void setAuth(String auth) {
-        this.auth = auth;
+        this.uauth = auth;
     }
 
     public String getType() {
-        return type;
+        return utype;
     }
 
     public void setType(String type) {
-        this.type = type;
+        this.utype = type;
     }
 
     public String getUtime() {
@@ -79,12 +76,12 @@ public class User {
     public void setUtime(String utime) {
         this.utime = utime;
     }
-
     private String cname;
 
-    private String auth;
+    private String uauth;
 
-    private String type;
+    private String utype;
 
     private String utime;
+    private String ccode;
 }
