@@ -1,12 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.Repository.LogRepository;
+import com.example.demo.bean.GroupBean;
 import com.example.demo.entity.Log;
 import com.example.demo.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +22,12 @@ public class LogController {
     public List<Log> getAll(){
         return logRepository.findAll();
     }
+
+    @PostMapping("/area")
+    public String getArea(@RequestBody String logid){
+        return logid;
+    }
+
 
 //    @GetMapping("/getRecent")
 //    public List<Log> getRecent{
