@@ -55,4 +55,55 @@ public class Log {
     }
 
     private String uname;
+
+    private String uptime;
+
+    private String loglocation;
+
+    private String loglink;
+
+    public String getUptime() {
+        return uptime;
+    }
+
+    public void setUptime(String uptime) {
+        this.uptime = uptime;
+    }
+
+    public String getLoglocation() {
+        return loglocation;
+    }
+
+    public void setLoglocation(String loglocation) {
+        this.loglocation = loglocation;
+    }
+
+    public String getLoglink() {
+        return loglink;
+    }
+
+    public void setLoglink(String loglink) {
+        this.loglink = loglink;
+    }
+
+    public String getLogstate() {
+        return logstate;
+    }
+
+    public void setLogstate(String logstate) {
+        this.logstate = logstate;
+    }
+
+    private String logstate;
+
+    public String getLogauth() {
+        return logauth;
+    }
+
+    public void setLogauth(String logauth) {
+        this.logauth = logauth;
+    }
+
+    private String logauth;
+
 }
