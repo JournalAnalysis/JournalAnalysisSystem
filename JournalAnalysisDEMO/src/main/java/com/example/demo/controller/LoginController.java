@@ -30,13 +30,13 @@ public class LoginController{
         String utype;
 //        return user.getUname();
         List<User> Users = userRepository.findByUname(user.getUname());
-        String pass= user.getPassword();
+        String pass= user.getUpassword();
 
-        if(Users.isEmpty()|| !Objects.equals(pass, Users.get(0).getPassword())){
+        if(Users.isEmpty()|| !Objects.equals(pass, Users.get(0).getUpassword())){
             return "失败";
         }else{
             uname = Users.get(0).getUname();
-            utype = Users.get(0).getType();
+            utype = Users.get(0).getUtype();
             return utype;
         }
     }

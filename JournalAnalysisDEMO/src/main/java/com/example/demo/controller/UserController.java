@@ -53,12 +53,12 @@ public class UserController {
     public String ChangeInf(@RequestBody User user){
         List<User> Users = userRepository.findByUname(user.getUname());
         User user2 = Users.get(0);
-        user2.setPassword(user.getPassword());
+        user2.setUpassword(user.getUpassword());
         List<Company> companies = companyRepository.findByCcode(user.getCcode());
         if(!companies.isEmpty()){
-            user2.setAuth("low");
+            user2.setUauth("low");
             user2.setCname(companies.get(0).getCname());
-            user2.setType("staff");
+            user2.setUtype("staff");
         }
         userRepository.save(user2);
         return "修改成功！";

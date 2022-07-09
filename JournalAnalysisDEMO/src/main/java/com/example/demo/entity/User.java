@@ -28,25 +28,10 @@ public class User {
     @Id
     private String uname;
 
-    public String getPassword() {
-        return password;
-    }
+    private String upassword;
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    private String uemail;
 
-    private String password;
-
-    private String email;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getCname() {
         return cname;
@@ -54,22 +39,6 @@ public class User {
 
     public void setCname(String cname) {
         this.cname = cname;
-    }
-
-    public String getAuth() {
-        return auth;
-    }
-
-    public void setAuth(String auth) {
-        this.auth = auth;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getUtime() {
@@ -82,9 +51,41 @@ public class User {
 
     private String cname;
 
-    private String auth;
+    public String getUpassword() {
+        return upassword;
+    }
 
-    private String type;
+    public void setUpassword(String upassword) {
+        this.upassword = upassword;
+    }
+
+    public String getUemail() {
+        return uemail;
+    }
+
+    public void setUemail(String uemail) {
+        this.uemail = uemail;
+    }
+
+    public String getUauth() {
+        return uauth;
+    }
+
+    public void setUauth(String uauth) {
+        this.uauth = uauth;
+    }
+
+    public String getUtype() {
+        return utype;
+    }
+
+    public void setUtype(String utype) {
+        this.utype = utype;
+    }
+
+    private String uauth;
+
+    private String utype;
 
     private String utime;
 }
