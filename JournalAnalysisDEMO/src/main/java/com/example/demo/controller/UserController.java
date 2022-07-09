@@ -55,7 +55,11 @@ public class UserController {
         User user2 = Users.get(0);
         user2.setPassword(user.getPassword());
         List<Company> companies = companyRepository.findByCcode(user.getCcode());
-        user2.setCname(companies.get(0).getCname());
+        if(!companies.isEmpty()){
+            user2.setAuth("low");
+            user2.setCname(companies.get(0).getCname());
+            user2.setType("staff");
+        }
         userRepository.save(user2);
         return "修改成功！";
     }
