@@ -45,12 +45,17 @@ public class LogController {
         return connection.toString();
     }
 
+    @PostMapping("/testid")
+    public String TestId(@RequestBody String logid){
+        return logid;
+    }
+
     @PostMapping("/area")
     public RandomAccess ArrayList (@RequestBody String logid) throws SQLException {
         this.GetConnection();
         ArrayList list = new ArrayList();
         try {
-            String sql = "SELECT city as name,number as value FROM web_test.log_city;";
+            String sql = "SELECT city as name,number as value FROM web_test." + logid + "_city";
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             m = rs.getMetaData();
