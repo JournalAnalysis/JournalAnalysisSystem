@@ -9,11 +9,15 @@ server:
 spring:
   datasource:
     name : Elebus
-    url : jdbc:mysql://localhost:3306/web_test?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=UTC
+    url : jdbc:mysql://localhost:3306/janal?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=UTC
     username : root
-    password : Book091212
+    password : root
     driver-class-name: com.mysql.cj.jdbc.Driver
     initialization-mode: always
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 
 file:
   upload-dir: ./uploads
