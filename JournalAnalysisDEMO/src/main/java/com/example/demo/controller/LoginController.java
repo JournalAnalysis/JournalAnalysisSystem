@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 //@WebServlet("/adm/login")
 @RestController
@@ -29,11 +30,13 @@ public class LoginController{
         String utype;
 //        return user.getUname();
         List<User> Users = userRepository.findByUname(user.getUname());
-        if(Users.isEmpty()){
+        String pass= user.getUpassword();
+
+        if(Users.isEmpty()|| !Objects.equals(pass, Users.get(0).getUpassword())){
             return "失败";
         }else{
             uname = Users.get(0).getUname();
-            utype = Users.get(0).getType();
+            utype = Users.get(0).getUtype();
             return utype;
         }
     }

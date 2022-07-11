@@ -7,6 +7,16 @@ public class UploadFileResponse {
     private String fileType;
     private long size;
 
+//    public String getUname() {
+//        return uname;
+//    }
+//
+//    public void setUname(String uname) {
+//        this.uname = uname;
+//    }
+//
+//    private String uname;
+
     public UploadFileResponse(String fileName, String fileDownloadUri, String fileType, long size) {
         this.fileName = fileName;
         this.fileDownloadUri = fileDownloadUri;

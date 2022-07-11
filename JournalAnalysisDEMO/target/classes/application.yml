@@ -20,4 +20,7 @@ spring:
       max-request-size: 100MB
 
 file:
-  upload-dir: ./uploads
+  upload-dir: ./JournalAnalysisDEMO/uploads
+#  upload-dir: ./uploads
+# test
+
