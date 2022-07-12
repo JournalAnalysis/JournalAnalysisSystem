@@ -34,8 +34,8 @@ public class LogController {
     }
 
     @PostMapping("/getRecent")
-    public List<Log> getRecent(){
-        return logRepository.findAll();
+    public List<Log> getRecent(@RequestBody String uname){
+        return logRepository.findByUname(uname);
     }
 
     private String GetConnection() {
@@ -55,9 +55,14 @@ public class LogController {
         return logid;
     }
 
+//    @PostMapping("/connection")
+//    public String Connection(){
+//        return this.GetConnection();
+//    }
+
     @PostMapping("/area")
     public RandomAccess Area (@RequestBody String logid) throws SQLException {
-        this.GetConnection();
+        //this.GetConnection();
         ArrayList list = new ArrayList();
         try {
             String sql = "SELECT city as name,number as value FROM web_test." + logid + "_city";
