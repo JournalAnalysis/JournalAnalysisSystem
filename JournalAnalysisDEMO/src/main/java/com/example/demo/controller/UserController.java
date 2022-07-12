@@ -50,6 +50,13 @@ public class UserController {
         return Users;
     }
 
+    @PostMapping("/adminf")
+    public List<Company> AdmInf(@RequestBody User user){
+        List<User> Users = userRepository.findByUname(user.getUname());
+        String cname = Users.get(0).getCname();
+        List<Company> companies = companyRepository.findByCname(cname);
+        return companies;
+    }
     @PostMapping("/changeinf")
     public String ChangeInf(@RequestBody User user){
         List<User> Users = userRepository.findByUname(user.getUname());
