@@ -13,7 +13,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-//import com.janal.demo.service.HDFSService;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,30 +27,30 @@ import java.io.InputStream;
 @Service
 public class HDFSServiceImpl implements HDFSService {
     @Autowired
-    private static FileSystem fileSystem;
+    private FileSystem fileSystem;
 
     @Override
     public boolean createFile(String path, MultipartFile file) {
         /**
          * author:zhangxiangyu
          * 用户上传文件后获取文件
-        */
-        boolean target=false;
-        if(existFile(path)){
-            return false;
-        }
-        String fileName=file.getName();
-        Path newPath=new Path(path+"/"+fileName);
+         */
+        boolean target = false;
+//        if (existFile(path)) {
+//            return false;
+//        }
+        String fileName = file.getOriginalFilename();
+        Path newPath = new Path(path + "/" + fileName);
         FSDataOutputStream outputStream = null;
-        try{
-           outputStream=fileSystem.create(newPath);
-           outputStream.write(file.getBytes());
-           target=true;
-        }
-        catch (Exception e){
+        try {
+            outputStream = fileSystem.create(newPath);
+            outputStream.write(file.getBytes());
+            outputStream.flush();
+            outputStream.close();
+            target = true;
+        } catch (Exception e) {
             log.error(e.getMessage());
-        }
-        finally {
+        } finally {
             if (null != outputStream) {
                 try {
                     outputStream.close();
@@ -65,10 +64,10 @@ public class HDFSServiceImpl implements HDFSService {
 
     @Override
     public boolean existFile(String path) {
-        if(path.equals("")||path==null){
-        return false;
+        if (path.equals("") || path == null) {
+            return false;
         }
-        Path src=new Path(path);
+        Path src = new Path(path);
         try {
             return fileSystem.exists(src);
         } catch (IOException e) {
@@ -79,7 +78,7 @@ public class HDFSServiceImpl implements HDFSService {
     @Override
     public boolean deleteFile(String path) {
         boolean target = false;
-        if (path==null||path.equals("")) {
+        if (path == null || path.equals("")) {
             return false;
         }
         if (!existFile(path)) {
@@ -93,13 +92,14 @@ public class HDFSServiceImpl implements HDFSService {
         }
         return target;
     }
-    public static Workbook readXls(String filePath){
-        if(filePath.isEmpty()){
+
+    public Workbook readXls(String filePath) {
+        if (filePath.isEmpty()) {
             return null;
         }
-        try{
-            InputStream inputStream=new FileInputStream(filePath);
-            if(filePath.contains(".xls")){
+        try {
+            InputStream inputStream = new FileInputStream(filePath);
+            if (filePath.contains(".xls")) {
                 return new HSSFWorkbook(inputStream);
             }
         } catch (FileNotFoundException e) {
@@ -109,33 +109,34 @@ public class HDFSServiceImpl implements HDFSService {
         }
         return null;
     }
+
     //将用户上传的文件输出到hdfs中
-    public static void readContent(String path){
-        try{
-            Workbook wb=readXls(path);
-            for(int numSheet=0;numSheet<wb.getNumberOfSheets();numSheet++){
-                Sheet sheet= wb.getSheetAt(numSheet);
-                if(sheet==null){
+    public void readContent(String path) {
+        try {
+            Workbook wb = readXls(path);
+            for (int numSheet = 0; numSheet < wb.getNumberOfSheets(); numSheet++) {
+                Sheet sheet = wb.getSheetAt(numSheet);
+                if (sheet == null) {
                     continue;
                 }
-                for (int numRow = 0; numRow <=sheet.getLastRowNum() ; numRow++) {
-                    Row row=sheet.getRow(numRow);
-                    Cell cell=row.getCell(0);
-                    String cellResult= cell.getStringCellValue();
-                    Path filePath=new Path("/root/server/input/a.log");
-                    FSDataOutputStream fsDataOutputStream=fileSystem.create(filePath);
+                for (int numRow = 0; numRow <= sheet.getLastRowNum(); numRow++) {
+                    Row row = sheet.getRow(numRow);
+                    Cell cell = row.getCell(0);
+                    String cellResult = cell.getStringCellValue();
+                    Path filePath = new Path("/root/server/input/a.log");
+                    FSDataOutputStream fsDataOutputStream = fileSystem.create(filePath);
                     fsDataOutputStream.write(cellResult.getBytes());
                     fsDataOutputStream.close();
 
                 }
             }
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public static void readCSV() throws IOException{
+
+    public static void readCSV() throws IOException {
 
     }
 }

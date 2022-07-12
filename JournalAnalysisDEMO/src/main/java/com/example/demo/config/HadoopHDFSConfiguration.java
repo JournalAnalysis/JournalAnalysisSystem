@@ -15,12 +15,12 @@ import java.net.URISyntaxException;
 @Configuration
 @Slf4j
 public class HadoopHDFSConfiguration {
-    @Value("{hdfs.hdfsPath}")
+    @Value("${hdfs.hdfsPath}")
     private String hdfsPath;
-    @Value("{hdfs.hdfsName}")
+    @Value("${hdfs.hdfsName}")
     private String hdfsName;
 
-    @Value("{hdfs.hdfsUser")
+    @Value("${hdfs.hdfsUser}")
     private String hdfsUser;
     @Bean
     public org.apache.hadoop.conf.Configuration  getConfiguration(){
@@ -33,7 +33,7 @@ public class HadoopHDFSConfiguration {
     public FileSystem getFileSystem(){
         FileSystem fileSystem = null;
         try {
-            fileSystem = FileSystem.get(new URI(hdfsPath), getConfiguration(), hdfsName);
+            fileSystem = FileSystem.get(new URI(hdfsPath), getConfiguration(), hdfsUser);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             log.error(e.getMessage());
@@ -46,6 +46,5 @@ public class HadoopHDFSConfiguration {
         }
         return fileSystem;
     }
-
 
 }

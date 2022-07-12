@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.Repository.FileException;
 import com.example.demo.Repository.FileProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ public class FileService {
     public static Random random;
 
     private final Path fileStorageLocation; // 文件在本地存储的地址
+    @Qualifier("HDFSServiceImpl")
+    @Autowired
+    public HDFSService hdfsService;
 
     @Autowired
     public FileService(FileProperties fileProperties) {
@@ -57,6 +61,9 @@ public class FileService {
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+
+            //upload to hadoop
+            hdfsService.createFile("/input",file);
 
             return fileName;
         } catch (IOException ex) {
