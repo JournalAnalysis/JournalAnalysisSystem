@@ -33,6 +33,11 @@ public class LogController {
         return logRepository.findAll();
     }
 
+    @PostMapping("/getRecent")
+    public List<Log> getRecent(){
+        return logRepository.findAll();
+    }
+
     private String GetConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -51,7 +56,7 @@ public class LogController {
     }
 
     @PostMapping("/area")
-    public RandomAccess ArrayList (@RequestBody String logid) throws SQLException {
+    public RandomAccess Area (@RequestBody String logid) throws SQLException {
         this.GetConnection();
         ArrayList list = new ArrayList();
         try {
@@ -80,9 +85,34 @@ public class LogController {
         return list;
     }
 
+    @PostMapping("/browser")
+    public RandomAccess Browser (@RequestBody String logid) throws SQLException {
+        this.GetConnection();
+        ArrayList list = new ArrayList();
+        try {
+            String sql = "SELECT browser as name,number as value FROM web_test." + logid + "_browser";
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            m = rs.getMetaData();
+            int len = rs.getMetaData().getColumnCount();
+            while (rs.next()) {
 
-//    @GetMapping("/getRecent")
-//    public List<Log> getRecent{
-//        return logRepository.findByUname()
-//    }
+                ArrayList _list = new ArrayList();
+
+                for (int i = 1; i <= len; i++) {
+
+                    _list.add(rs.getString(i));
+
+                }
+
+                list.add(_list);
+
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
 }

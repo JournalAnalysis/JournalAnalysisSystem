@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/user")
@@ -64,18 +65,6 @@ public class UserController {
         return "修改成功！";
     }
 
-    //上传单个文件
-//    @RequestMapping("/upload/file")
-//    public String uploadFile(
-//            @RequestParam("file") MultipartFile file){
-//
-//        String fileName = fileService.storeFile(file);
-//        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                .path("/user/downloadFile/")
-//                .path(fileName)
-//                .toUriString();
-//        return file.;
-//    }
     @RequestMapping("/upload/file")
     public UploadFileResponse uploadFile(
             @RequestParam("file") MultipartFile file){
@@ -99,6 +88,19 @@ public class UserController {
         return "上传成功！";
 
     }
+
+    @RequestMapping("/upload/address")
+    public String uploadLink(@RequestBody Log log){
+        int max=10000;
+        int min=1000;
+        Random random = new Random();
+        String code = String.valueOf(random.nextInt(max) % (max - min + 1) + min);
+        String logid = code + log.getLogname();
+        log.setLogid(logid);
+        logRepository.save(log);
+        return "上传成功！";
+    }
+
     //下载日志文件
     @RequestMapping("/downloadFile/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
