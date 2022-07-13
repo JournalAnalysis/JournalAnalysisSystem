@@ -26,7 +26,7 @@ public class MapRedConfig {
         return configuration;
     }
 
-    public void getReduceJobsConf(String jobName, Path inputPath,Path outputPath)
+    /**public void getReduceJobsConf(String jobName, Path inputPath,Path outputPath)
             throws IOException,ClassNotFoundException,InterruptedException
     {
         org.apache.hadoop.conf.Configuration conf =getConfiguration();
@@ -42,5 +42,5 @@ public class MapRedConfig {
         job.waitForCompletion(true);
         log.info("Testing mapreduce");
 
-    }
+   // }**/
 }
