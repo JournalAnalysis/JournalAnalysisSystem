@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.RandomAccess;
 
 @RestController
@@ -22,11 +23,6 @@ public class LogController {
     @Autowired
     LogRepository logRepository;
 
-//    private Connection connection = null;
-//
-//    PreparedStatement ps=null;
-//    ResultSet rs=null;
-//    ResultSetMetaData m=null;
 
     @GetMapping("/getAll")
     public List<Log> getAll(){
@@ -34,35 +30,30 @@ public class LogController {
     }
 
     @PostMapping("/getRecent")
-    public List<Log> getRecent(@RequestBody String uname){
-        return logRepository.findByUname(uname);
+    public List<Log> getRecent(@RequestBody Log log){
+        //return log;
+        return logRepository.findByUnameAndUptime(log.getUname(),log.getLoginf(),log.getUptime());
     }
 
-//    private String GetConnection() {
-//        try {
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/web_test", "root", "Book091212");
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return connection.toString();
-//    }
+    @PostMapping("/getHistory")
+    public List<Log> getHistory(@RequestBody Log log){
+        if(log.getLogname().isEmpty()){
+            return logRepository.findByUname(log.getUname());
+        }else{
+           return logRepository.findByUnameAndLogname(log.getUname(),log.getLogname());
+            //return logRepository.findByLogname(log.getLogname());
+        }
+    }
 
-//    private void DisConnection() throws SQLException {
-//        connection.close();
-//    }
+    @PostMapping("/getCompany")
+    public List<Log> getCompany(@RequestBody Log log){
+        return logRepository.findByCname(log.getCname());
+    }
 
     @PostMapping("/testid")
     public String TestId(@RequestBody String logid){
         return logid;
     }
-
-//    @PostMapping("/connection")
-//    public String Connection(){
-//        return this.GetConnection();
-//    }
 
     @PostMapping("/area")
     public RandomAccess Area (@RequestBody String logid) throws SQLException {

@@ -41,13 +41,13 @@ public class FileService {
      * @return 文件名
      */
     public String storeFile(MultipartFile file) {
-        int max=10000;
-        int min=1000;
+        int max=100000;
+        int min=10000;
         random=new Random();
         code = String.valueOf(random.nextInt(max)%(max-min+1)+min);
         // Normalize file name
-        String fileName = code+ StringUtils.cleanPath(file.getOriginalFilename());
-
+//        String fileName = code+ StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = "log" + code;
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
