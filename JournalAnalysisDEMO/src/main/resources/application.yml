@@ -1,6 +1,7 @@
 server:
   port: 8081
 
+
 hdfs:
   hdfsPath: hdfs://192.168.80.130:8020
   hdfsName: root
@@ -47,4 +48,8 @@ hive:
 #  # 打开PSCache，并且指定每个连接上PSCache的大小
 #  poolPreparedStatements: true
 #  maxPoolPreparedStatementPerConnectionSize: 20
+CentOS:
+  ip: 192.168.80.130
+  path:
+    sqoop: /opt/server/sqoop-1.4.7.bin__hadoop-2.6.0/bin/
 
