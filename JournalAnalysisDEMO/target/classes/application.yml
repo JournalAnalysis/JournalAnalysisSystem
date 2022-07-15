@@ -1,0 +1,55 @@
+server:
+  port: 8081
+
+
+hdfs:
+  hdfsPath: hdfs://192.168.80.130:8020
+  hdfsName: root
+  hdfsUser: root
+
+spring:
+  datasource:
+    name : Elebus
+    url : jdbc:mysql://localhost:3306/janal?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=UTC&allowMultiQueries=true
+    username : root
+    password : root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    initialization-mode: always
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+file:
+#  upload-dir: ./JournalAnalysisDEMO/uploads
+  upload-dir: ./uploads
+
+hive:
+  url: jdbc:hive2://192.168.80.130:10000/
+  driver-class-name: org.apache.hive.jdbc.HiveDriver
+#  type: com.alibaba.druid.pool.DruidDataSource
+  user: root
+  password: root
+#  # 下面为连接池的补充设置，应用到上面所有数据源中
+#  # 初始化大小，最小，最大
+#  initialSize: 1
+#  minIdle: 3
+#  maxActive: 20
+#  # 配置获取连接等待超时的时间
+#  maxWait: 60000
+#  # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+#  timeBetweenEvictionRunsMillis: 60000
+#  # 配置一个连接在池中最小生存的时间，单位是毫秒
+#  minEvictableIdleTimeMillis: 30000
+#  validationQuery: select 1
+#  testWhileIdle: true
+#  testOnBorrow: false
+#  testOnReturn: false
+#  # 打开PSCache，并且指定每个连接上PSCache的大小
+#  poolPreparedStatements: true
+#  maxPoolPreparedStatementPerConnectionSize: 20
+CentOS:
+  ip: 192.168.80.130
+  path:
+    sqoop: /opt/server/sqoop-1.4.7.bin__hadoop-2.6.0/bin/
+
