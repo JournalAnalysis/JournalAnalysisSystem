@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Date;
 
 @Entity
 public class Log {
@@ -56,12 +57,6 @@ public class Log {
 
     private String uname;
 
-    private String uptime;
-
-    private String loglocation;
-
-    private String loglink;
-
     public String getUptime() {
         return uptime;
     }
@@ -69,6 +64,12 @@ public class Log {
     public void setUptime(String uptime) {
         this.uptime = uptime;
     }
+
+    private String uptime;
+
+    private String loglocation;
+
+    private String loglink;
 
     public String getLoglocation() {
         return loglocation;

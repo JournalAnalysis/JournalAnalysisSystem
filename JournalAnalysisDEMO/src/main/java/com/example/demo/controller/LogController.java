@@ -9,10 +9,8 @@ import com.example.demo.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.RandomAccess;
+import java.util.*;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/log")
@@ -29,6 +27,10 @@ public class LogController {
         return logRepository.findAll();
     }
 
+    @PostMapping("/testRecent")
+    public Log testRecent(@RequestBody Log log){
+        return log;
+    }
     @PostMapping("/getRecent")
     public List<Log> getRecent(@RequestBody Log log){
         //return log;
@@ -37,17 +39,28 @@ public class LogController {
 
     @PostMapping("/getHistory")
     public List<Log> getHistory(@RequestBody Log log){
-        if(log.getLogname().isEmpty()){
-            return logRepository.findByUname(log.getUname());
-        }else{
+//        if(log.getLogname().isEmpty()){
+//            return logRepository.findByUname(log.getUname());
+//        }else{
            return logRepository.findByUnameAndLogname(log.getUname(),log.getLogname());
             //return logRepository.findByLogname(log.getLogname());
-        }
+//        }
     }
 
+    @PostMapping("/testCompany")
+    public Log testCompany(@RequestBody Log log){
+//        TimeZone.setDefault(TimeZone.getTimeZone("CST"));
+//        Date d = new Date();
+//        log.setLogid(d.toString());
+        return log;
+    }
     @PostMapping("/getCompany")
     public List<Log> getCompany(@RequestBody Log log){
-        return logRepository.findByCname(log.getCname());
+        if(log.getUptime()==null){
+            return logRepository.findByCnameAndUnameAndLogauthAndLogname(log.getCname(),log.getUname(),log.getLogauth(),log.getLogname());
+        }else{
+            return logRepository.findByCnameAndUnameAndUptimeAndLogauthAndLogname(log.getCname(),log.getUname(),log.getLogauth(),log.getLogname(),log.getUptime(),log.getLoginf());
+        }
     }
 
     @PostMapping("/testid")

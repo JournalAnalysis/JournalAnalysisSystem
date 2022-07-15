@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Date;
 import java.util.List;
 
 public interface LogRepository extends JpaRepository<Log,Integer> {
@@ -25,5 +26,10 @@ public interface LogRepository extends JpaRepository<Log,Integer> {
 
     List<Log> findByCname(String cname);
 
+    @Query(value="select * from log where cname = :cname and uname like CONCAT('%',:uname,'%') and logauth <=:logauth and logname like CONCAT('%',:logname,'%') and uptime between :start and :end",nativeQuery=true)
+    List<Log> findByCnameAndUnameAndUptimeAndLogauthAndLogname(@Param("cname")String cname,@Param("uname")String uname,@Param("logauth")String logauth,@Param("logname")String logname,@Param("start")String start,@Param("end")String end);
+
+    @Query(value="select * from log where cname = :cname and uname like CONCAT('%',:uname,'%') and logauth <=:logauth and logname like CONCAT('%',:logname,'%')",nativeQuery=true)
+    List<Log> findByCnameAndUnameAndLogauthAndLogname(@Param("cname")String cname,@Param("uname")String uname,@Param("logauth")String logauth,@Param("logname")String logname);
 //    List<Log> findByUnameAndLogname(String uname,String logname);
 }

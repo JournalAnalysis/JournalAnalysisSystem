@@ -14,6 +14,8 @@ spring:
     password : Book091212
     driver-class-name: com.mysql.cj.jdbc.Driver
     initialization-mode: always
+#    jeckson:
+#      time-zone: Asia/Shanghai
 
 file:
   upload-dir: ./JournalAnalysisDEMO/uploads
