@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="ant (2)">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/JournalAnalysisDEMO/libs/ant.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

@@ -4,33 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d3a111a-4550-48c9-bf0e-3870efe900c6" name="Changes" comment="" />
+    <list default="true" id="0d3a111a-4550-48c9-bf0e-3870efe900c6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/JournalAnalysisDEMO/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/JournalAnalysisDEMO/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/4472web.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/5747web.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/5749ip.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/6745web.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/8185ip.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/9114web.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/9663web.log" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="CodeStyleSettingsInfer">
-    <option name="done" value="true" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
-  </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="localRepository" value="D:\maven\apache-maven-3.8.6-bin\repository" />
-        <option name="mavenHome" value="$PROJECT_DIR$/../../maven/apache-maven-3.8.6-bin" />
-        <option name="useMavenConfig" value="true" />
-        <option name="userSettingsFile" value="D:\maven\apache-maven-3.8.6-bin\conf\settings.xml" />
-      </MavenGeneralSettings>
-    </option>
-  </component>
-  <component name="ProjectCodeStyleSettingsMigration">
-    <option name="version" value="2" />
   </component>
   <component name="ProjectId" id="2BmPSKItQ9ZDW10TFaUpP3Qa0L1" />
   <component name="ProjectViewState">
@@ -42,46 +35,16 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/JournalAnalysisSystem/JournalAnalysisSystem/JournalAnalysisDEMO",
+    "last_opened_file_path": "C:/Users/11390/Desktop/JournalAnalysis/JournalAnalysisSystem/JournalAnalysisDEMO",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.3264368",
-    "settings.editor.selected.configurable": "MavenSettings",
-    "spring.configuration.checksum": "fe01ce2a7fbac8fafaed7c982a04e229",
-    "vue.rearranger.settings.migration": "true"
-  },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
-    ]
+    "project.structure.side.proportion": "0.0"
   }
 }]]></component>
-  <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="demo" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="demo" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="DemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="demo" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.demo.DemoApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -93,17 +56,10 @@
       <workItem from="1657508301064" duration="92000" />
       <workItem from="1657508419348" duration="20000" />
       <workItem from="1657509531062" duration="439000" />
-      <workItem from="1657611790416" duration="293000" />
-      <workItem from="1657612102515" duration="459000" />
-      <workItem from="1657613627521" duration="288000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
 </project>
