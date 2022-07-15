@@ -72,16 +72,23 @@ public class UserController {
         return "修改成功！";
     }
 
+//    @RequestMapping("/upload/file")
+//    public String uploadFile(
+//            @RequestParam("file") MultipartFile file,@RequestParam("uname") String unam){
+//
+//        return unam;
+//    }
     @RequestMapping("/upload/file")
     public UploadFileResponse uploadFile(
-            @RequestParam("file") MultipartFile file){
+            @RequestParam("file") MultipartFile file,@RequestParam("uname") String uname){
 
         String fileName = fileService.storeFile(file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/user/downloadFile/")
                 .path(fileName)
                 .toUriString();
-
+        //获取上传用户名
+        System.out.println(uname);
         return new UploadFileResponse(fileName, fileDownloadUri,
                 file.getContentType(), file.getSize());
     }
