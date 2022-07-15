@@ -162,29 +162,7 @@
             <scope>system</scope>
 			<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
         </dependency>
-<!--        连接sqoop         -->
-        <dependency>
-            <groupId>org.apache.sqoop</groupId>
-            <artifactId>sqoop</artifactId>
-            <version>1.4.7</version>
-            <classifier>hadoop260</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.0</version>
-        </dependency>
-<!--        sqoop-->
-        <dependency>
-            <groupId>ch.ethz.ganymed</groupId>
-            <artifactId>ganymed-ssh2</artifactId>
-            <version>262</version>
-        </dependency>
+
     </dependencies>
 
     <build>
