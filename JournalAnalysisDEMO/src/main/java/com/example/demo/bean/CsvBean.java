@@ -1,0 +1,96 @@
+package com.example.demo.bean;
+
+import org.apache.hadoop.io.Writable;
+
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+
+public class CsvBean implements Writable {
+    private String ip;
+    private String access_time;
+    private String url;
+    private String status_code;
+    private String referer;
+    private String client;
+
+    public CsvBean(){}
+
+    public CsvBean(String ip,String access_time,String url,String status,String referer,String client){
+        this.ip=ip;
+        this.access_time=access_time;
+        this.url=url;
+        this.referer=referer;
+        this.status_code=status;
+        this.client=client;
+
+    }
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+    public String getAccess_time() {
+        return access_time;
+    }
+
+    public void setAccess_time(String access_time) {
+        this.access_time = access_time;
+    }
+
+    public String getReferer() {
+        return referer;
+    }
+
+    public void setReferer(String referer) {
+        this.referer = referer;
+    }
+    public String getStatus_code() {
+        return status_code;
+    }
+
+    public void setStatus_code(String status_code) {
+        this.status_code = status_code;
+    }
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    public String getClient() {
+        return client;
+    }
+
+    public void setClient(String client) {
+        this.client = client;
+    }
+
+
+    @Override
+    public String toString(){
+        return ip+" "+access_time+" "+url+" "+status_code+" "+referer+" "+client;
+    }
+
+    @Override
+    public void write(DataOutput dataOutput) throws IOException {
+        dataOutput.writeUTF(ip);
+        dataOutput.writeUTF(access_time);
+        dataOutput.writeUTF(url);
+        dataOutput.writeUTF(status_code);
+        dataOutput.writeUTF(referer);
+        dataOutput.writeUTF(client);
+    }
+
+    @Override
+    public void readFields(DataInput dataInput) throws IOException {
+      this.ip=dataInput.readUTF();
+      this.access_time=dataInput.readUTF();
+      this.url=dataInput.readUTF();
+      this.referer=dataInput.readUTF();
+      this.client=dataInput.readUTF();
+    }
+}

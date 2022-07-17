@@ -59,7 +59,7 @@ public class MysqlService {
         Connection comm = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            comm = DriverManager.getConnection("jdbc:mysql://localhost:3306/web", "root", "Book091212");
+            comm = DriverManager.getConnection("jdbc:mysql://192.168.146.130:3306/web", "root", "Root_12root");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
