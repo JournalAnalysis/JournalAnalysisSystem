@@ -44,6 +44,21 @@ public class UserController {
     @Autowired
     ResourceLoader resourceLoader;
 
+    @PostMapping("/getStaff")
+    public List<User> GetStaff(@RequestBody User user){
+
+        List<User> Users = userRepository.findByCnameAndUtypeAndUname(user.getCname(), user.getUtype(), user.getUname());
+        return Users;
+    }
+
+    @PostMapping("/changeAuth")
+    public String changeAuth(@RequestBody User user){
+        List<User> users = userRepository.findByUname(user.getUname());
+        users.get(0).setUauth(user.getUauth());
+        userRepository.save(users.get(0));
+        return "修改成功";
+    }
+
     @PostMapping("/inf")
     public List<User> Inf(@RequestBody User user){
         List<User> Users = userRepository.findByUname(user.getUname());
@@ -98,6 +113,7 @@ public class UserController {
 
         String path = System.getProperty("user.dir")+"/uploads/"+log.getLogid();
         log.setLoglocation(path);
+        log.setLogstate("underway");
         logRepository.save(log);
         return "上传成功！";
 
@@ -111,6 +127,7 @@ public class UserController {
         String code = String.valueOf(random.nextInt(max) % (max - min + 1) + min);
         String logid = code + log.getLogname();
         log.setLogid(logid);
+        log.setLogstate("underway");
         logRepository.save(log);
         return "上传成功！";
     }

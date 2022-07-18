@@ -42,7 +42,7 @@ public class LogController {
 //        if(log.getLogname().isEmpty()){
 //            return logRepository.findByUname(log.getUname());
 //        }else{
-           return logRepository.findByUnameAndLogname(log.getUname(),log.getLogname());
+           return logRepository.findByUnameAndLognameAndLogstate(log.getUname(),log.getLogname());
             //return logRepository.findByLogname(log.getLogname());
 //        }
     }
@@ -57,9 +57,9 @@ public class LogController {
     @PostMapping("/getCompany")
     public List<Log> getCompany(@RequestBody Log log){
         if(log.getUptime()==null){
-            return logRepository.findByCnameAndUnameAndLogauthAndLogname(log.getCname(),log.getUname(),log.getLogauth(),log.getLogname());
+            return logRepository.findByCnameAndUnameAndLogauthAndLognameAndLogstate(log.getCname(),log.getUname(),log.getLogauth(),log.getLogname());
         }else{
-            return logRepository.findByCnameAndUnameAndUptimeAndLogauthAndLogname(log.getCname(),log.getUname(),log.getLogauth(),log.getLogname(),log.getUptime(),log.getLoginf());
+            return logRepository.findByCnameAndUnameAndUptimeAndLogauthAndLognameAndLogstate(log.getCname(),log.getUname(),log.getLogauth(),log.getLogname(),log.getUptime(),log.getLoginf());
         }
     }
 
