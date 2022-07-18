@@ -2,9 +2,7 @@ package com.example.demo.service.Implement;
 
 import com.example.demo.service.HDFSService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.hadoop.fs.FSDataOutputStream;
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -12,12 +10,14 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.*;
 
 /**
  * 空字符代表路径待定
@@ -30,17 +30,22 @@ public class HDFSServiceImpl implements HDFSService {
     private FileSystem fileSystem;
 
     @Override
-    public boolean createFile(String path, MultipartFile file) {
+    public boolean createFile(String inputPath,String outputPath, MultipartFile file,String code) {
         /**
          * author:zhangxiangyu
          * 用户上传文件后获取文件
          */
+        Path newPath;
         boolean target = false;
 //        if (existFile(path)) {
 //            return false;
 //        }
-        String fileName = file.getOriginalFilename();
-        Path newPath = new Path(path + "/" + fileName);
+        String fileName = code+file.getOriginalFilename();
+        if(fileName.contains(".csv")||fileName.contains(".xls")||fileName.contains("xlsx")){
+            newPath=new Path(inputPath+"/"+fileName);
+        }else{
+            newPath = new Path(outputPath + "/" + fileName);
+        }
         FSDataOutputStream outputStream = null;
         try {
             outputStream = fileSystem.create(newPath);
@@ -64,7 +69,7 @@ public class HDFSServiceImpl implements HDFSService {
 
     @Override
     public boolean existFile(String path) {
-        if (path.equals("") || path == null) {
+        if (path.equals("")) {
             return false;
         }
         Path src = new Path(path);
@@ -92,51 +97,76 @@ public class HDFSServiceImpl implements HDFSService {
         }
         return target;
     }
-
-    public Workbook readXls(String filePath) {
-        if (filePath.isEmpty()) {
-            return null;
+    @Override
+    public List<String> listFile(String path) {
+        if (StringUtils.isEmpty(path)) {
+            return Collections.emptyList();
         }
+        if (!existFile(path)) {
+            return Collections.emptyList();
+        }
+        List<String> resultList = new ArrayList<>();
+
+        Path src = new Path(path);
         try {
-            InputStream inputStream = new FileInputStream(filePath);
-            if (filePath.contains(".xls")) {
-                return new HSSFWorkbook(inputStream);
+            RemoteIterator<LocatedFileStatus> fileIterator = fileSystem.listFiles(src, true);
+            while (fileIterator.hasNext()) {
+                LocatedFileStatus next = fileIterator.next();
+                Path filePath = next.getPath();
+                String fileName = filePath.getName();
+                resultList.add(fileName);
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error(e.getMessage());
         }
-        return null;
+
+        return resultList;
     }
 
-    //将用户上传的文件输出到hdfs中
-    public void readContent(String path) {
-        try {
-            Workbook wb = readXls(path);
-            for (int numSheet = 0; numSheet < wb.getNumberOfSheets(); numSheet++) {
-                Sheet sheet = wb.getSheetAt(numSheet);
-                if (sheet == null) {
-                    continue;
-                }
-                for (int numRow = 0; numRow <= sheet.getLastRowNum(); numRow++) {
-                    Row row = sheet.getRow(numRow);
-                    Cell cell = row.getCell(0);
-                    String cellResult = cell.getStringCellValue();
-                    Path filePath = new Path("/root/server/input/a.log");
-                    FSDataOutputStream fsDataOutputStream = fileSystem.create(filePath);
-                    fsDataOutputStream.write(cellResult.getBytes());
-                    fsDataOutputStream.close();
-
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void readCSV() throws IOException {
-
-    }
+//    public Workbook readXls(String filePath) {
+//        if (filePath.isEmpty()) {
+//            return null;
+//        }
+//        try {
+//            InputStream inputStream = new FileInputStream(filePath);
+//            if (filePath.contains(".xls")) {
+//                return new HSSFWorkbook(inputStream);
+//            }
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return null;
+//    }
+//
+//    //将用户上传的文件输出到hdfs中
+//    public void readContent(String path) {
+//        try {
+//            Workbook wb = readXls(path);
+//            for (int numSheet = 0; numSheet < wb.getNumberOfSheets(); numSheet++) {
+//                Sheet sheet = wb.getSheetAt(numSheet);
+//                if (sheet == null) {
+//                    continue;
+//                }
+//                for (int numRow = 0; numRow <= sheet.getLastRowNum(); numRow++) {
+//                    Row row = sheet.getRow(numRow);
+//                    Cell cell = row.getCell(0);
+//                    String cellResult = cell.getStringCellValue();
+//                    Path filePath = new Path("/root/server/input/a.log");
+//                    FSDataOutputStream fsDataOutputStream = fileSystem.create(filePath);
+//                    fsDataOutputStream.write(cellResult.getBytes());
+//                    fsDataOutputStream.close();
+//
+//                }
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public static void readCSV() throws IOException {
+//
+//    }
 }

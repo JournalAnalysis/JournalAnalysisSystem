@@ -6,30 +6,19 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-public class CsvBean implements Writable {
+public class XlsBean implements Writable {
     private String ip;
     private String access_time;
     private String url;
     private String status_code;
     private String referer;
     private String client;
-
-
     private String traffic;
-    public CsvBean(){}
 
-    public CsvBean(String ip,String access_time,String url,String status,String referer,String client){
-        this.ip=ip;
-        this.access_time=access_time;
-        this.url=url;
-        this.referer=referer;
-        this.status_code=status;
-        this.client=client;
-
-    }
     public String getIp() {
         return ip;
     }
+    public XlsBean(){}
 
     public void setIp(String ip) {
         this.ip = ip;
@@ -56,19 +45,13 @@ public class CsvBean implements Writable {
     public void setStatus_code(String status_code) {
         this.status_code = status_code;
     }
+
     public String getUrl() {
         return url;
     }
 
     public void setUrl(String url) {
         this.url = url;
-    }
-    public String getTraffic() {
-        return traffic;
-    }
-
-    public void setTraffic(String traffic) {
-        this.traffic = traffic;
     }
     public String getClient() {
         return client;
@@ -78,12 +61,18 @@ public class CsvBean implements Writable {
         this.client = client;
     }
 
+    public String getTraffic() {
+        return traffic;
+    }
+
+    public void setTraffic(String traffic) {
+        this.traffic = traffic;
+    }
 
     @Override
     public String toString(){
-        return ip+" "+access_time+" "+url+" "+status_code+" "+traffic+" "+referer+" "+client+"\n";
+     return ip+" "+access_time+" "+url+" "+status_code+" "+traffic+" "+referer+" "+client+"\n";
     }
-
     @Override
     public void write(DataOutput dataOutput) throws IOException {
         dataOutput.writeUTF(ip);
@@ -97,11 +86,11 @@ public class CsvBean implements Writable {
 
     @Override
     public void readFields(DataInput dataInput) throws IOException {
-      this.ip=dataInput.readUTF();
-      this.access_time=dataInput.readUTF();
-      this.url=dataInput.readUTF();
-      this.referer=dataInput.readUTF();
-      this.client=dataInput.readUTF();
-      this.traffic=dataInput.readUTF();
+        this.ip=dataInput.readUTF();
+        this.access_time=dataInput.readUTF();
+        this.url=dataInput.readUTF();
+        this.referer=dataInput.readUTF();
+        this.client=dataInput.readUTF();
+        this.traffic=dataInput.readUTF();
     }
 }

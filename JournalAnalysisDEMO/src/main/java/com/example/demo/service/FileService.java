@@ -28,6 +28,7 @@ public class FileService {
     @Autowired
     public HDFSService hdfsService;
 
+
     @Autowired
     public FileService(FileProperties fileProperties) {
         this.fileStorageLocation = Paths.get(fileProperties.getUploadDir()).toAbsolutePath().normalize();
@@ -52,6 +53,7 @@ public class FileService {
         // Normalize file name
         String fileName = code+ StringUtils.cleanPath(file.getOriginalFilename());
 
+
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
@@ -63,7 +65,9 @@ public class FileService {
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
             //upload to hadoop
-            hdfsService.createFile("/input",file);
+            String inputPath="/input";
+            String outputPath="/output";
+            hdfsService.createFile(inputPath,outputPath,file,code);
 
             return fileName;
         } catch (IOException ex) {
