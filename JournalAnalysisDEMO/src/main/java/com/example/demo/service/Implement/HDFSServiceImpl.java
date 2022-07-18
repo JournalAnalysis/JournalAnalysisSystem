@@ -13,6 +13,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+//import com.janal.demo.service.HDFSService;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -92,7 +93,6 @@ public class HDFSServiceImpl implements HDFSService {
         }
         return target;
     }
-
     public Workbook readXls(String filePath) {
         if (filePath.isEmpty()) {
             return null;
@@ -125,11 +125,13 @@ public class HDFSServiceImpl implements HDFSService {
                     String cellResult = cell.getStringCellValue();
                     Path filePath = new Path("/root/server/input/a.log");
                     FSDataOutputStream fsDataOutputStream = fileSystem.create(filePath);
+
                     fsDataOutputStream.write(cellResult.getBytes());
                     fsDataOutputStream.close();
 
                 }
             }
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,6 +139,7 @@ public class HDFSServiceImpl implements HDFSService {
     }
 
     public static void readCSV() throws IOException {
+
 
     }
 }

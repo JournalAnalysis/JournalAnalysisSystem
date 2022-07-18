@@ -1,11 +1,11 @@
 server:
   port: 8081
 
-
 hdfs:
   hdfsPath: hdfs://192.168.80.130:8020
   hdfsName: root
   hdfsUser: root
+
 
 spring:
   datasource:

@@ -46,5 +46,4 @@ public class HadoopHDFSConfiguration {
         }
         return fileSystem;
     }
-
 }

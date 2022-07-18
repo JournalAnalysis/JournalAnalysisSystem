@@ -1,7 +1,6 @@
 server:
   port: 8081
 
-
 hdfs:
   hdfsPath: hdfs://192.168.80.130:8020
   hdfsName: root
@@ -10,6 +9,7 @@ hdfs:
 spring:
   datasource:
     name : Elebus
+
     url : jdbc:mysql://localhost:3306/janal?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=UTC&allowMultiQueries=true
     username : root
     password : root
@@ -52,4 +52,3 @@ CentOS:
   ip: 192.168.80.130
   path:
     sqoop: /opt/server/sqoop-1.4.7.bin__hadoop-2.6.0/bin/
-
