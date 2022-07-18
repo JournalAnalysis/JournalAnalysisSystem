@@ -12,6 +12,7 @@ import java.util.List;
 public interface LogRepository extends JpaRepository<Log,Integer> {
 
     List<Log> findByUname(String uname);
+    List<Log> findByLogid(String logid);
 
     @Query(value="select * from log where logname like CONCAT('%',:logname,'%')",nativeQuery=true)
     List<Log> findByLogname(@Param("logname") String logname);
@@ -42,4 +43,8 @@ public interface LogRepository extends JpaRepository<Log,Integer> {
     @Query(value="select * from log where cname = :cname and uname like CONCAT('%',:uname,'%') and logauth <=:logauth and logstate = 'finish' and logname like CONCAT('%',:logname,'%') and uptime between :start and :end",nativeQuery=true)
     List<Log> findByCnameAndUnameAndUptimeAndLogauthAndLognameAndLogstate(@Param("cname")String cname,@Param("uname")String uname,@Param("logauth")String logauth,@Param("logname")String logname,@Param("start")String start,@Param("end")String end);
 //    List<Log> findByUnameAndLogname(String uname,String logname);
+
+
+
+
 }

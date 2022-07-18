@@ -14,7 +14,9 @@ public class User {
         this.ccode = ccode;
     }
 
+
     private String ccode;
+
 
     public String getUname() {
         return uname;
@@ -39,7 +41,6 @@ public class User {
         this.uemail = email;
     }
 
-
     public String getCname() {
         return cname;
     }
@@ -55,7 +56,6 @@ public class User {
     public void setUtime(String utime) {
         this.utime = utime;
     }
-
     private String cname;
 
     private String uauth;

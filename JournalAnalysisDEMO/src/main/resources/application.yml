@@ -2,17 +2,16 @@ server:
   port: 8081
 
 hdfs:
-  hdfsPath: hdfs://192.168.80.130:8020
+  hdfsPath: hdfs://120.55.45.150:8020
   hdfsName: root
   hdfsUser: root
 
 spring:
   datasource:
-    name : Elebus
-
-    url : jdbc:mysql://localhost:3306/janal?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=UTC&allowMultiQueries=true
+#    name : Elebus
+    url : jdbc:mysql://120.55.45.150:3306/web_test?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=UTC&allowMultiQueries=true
     username : root
-    password : root
+    password : 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
     initialization-mode: always
   servlet:
@@ -25,7 +24,7 @@ file:
   upload-dir: ./uploads
 
 hive:
-  url: jdbc:hive2://192.168.80.130:10000/
+  url: jdbc:hive2://120.55.45.150:10000/janal
   driver-class-name: org.apache.hive.jdbc.HiveDriver
 #  type: com.alibaba.druid.pool.DruidDataSource
   user: root
@@ -49,6 +48,6 @@ hive:
 #  poolPreparedStatements: true
 #  maxPoolPreparedStatementPerConnectionSize: 20
 CentOS:
-  ip: 192.168.80.130
+  ip: 120.55.45.150
   path:
-    sqoop: /opt/server/sqoop-1.4.7.bin__hadoop-2.6.0/bin/
+    sqoop: /root/server/sqoop-1.4.7.bin__hadoop-2.6.0/bin/

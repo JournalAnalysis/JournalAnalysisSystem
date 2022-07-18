@@ -93,7 +93,7 @@ public class UserController {
     public UploadFileResponse uploadFile(
             @RequestParam("file") MultipartFile file,@RequestParam("uname") String uname){
 
-        String fileName = fileService.storeFile(file);
+        String fileName = fileService.storeFile(file,uname);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/user/downloadFile/")
                 .path(fileName)

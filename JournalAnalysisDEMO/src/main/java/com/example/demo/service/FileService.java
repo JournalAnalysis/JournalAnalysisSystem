@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.SQLException;
 import java.util.Random;
 
 @Service
@@ -24,10 +25,12 @@ public class FileService {
     public static Random random;
 
     private final Path fileStorageLocation; // 文件在本地存储的地址
-
     @Qualifier("HDFSServiceImpl")
     @Autowired
     public HDFSService hdfsService;
+    @Autowired
+    public HiveService hiveService;
+
 
     @Autowired
     public FileService(FileProperties fileProperties) {
@@ -45,7 +48,7 @@ public class FileService {
      * @param file 文件
      * @return 文件名
      */
-    public String storeFile(MultipartFile file) {
+    public String storeFile(MultipartFile file, String uname) {
         int max=100000;
         int min=10000;
         random=new Random();
@@ -55,7 +58,7 @@ public class FileService {
         String fileName = "log" + code;
         try {
             // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
+            if (fileName.contains("..")) {
                 throw new FileException("Sorry! Filename contains invalid path sequence " + fileName);
             }
 
@@ -63,15 +66,26 @@ public class FileService {
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             //upload to hadoop
-            hdfsService.createFile("/input",file);
+            String hadoopDir = "/input/" + uname;
+            hdfsService.createFile("/input/" + uname, file, fileName);
+            //load data to hive
+            String hadoopFilePath = hadoopDir + "/" + fileName;
+            String logid = fileName;//.substring(0,fileName.lastIndexOf("."));
+            hiveService.loadData(hadoopFilePath,logid,uname);
+
             return fileName;
         } catch (IOException ex) {
             throw new FileException("Could not store file " + fileName + ". Please try again!", ex);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
     /**
      * 加载文件
+     *
      * @param fileName 文件名
      * @return 文件
      */
@@ -79,7 +93,7 @@ public class FileService {
         try {
             Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());
-            if(resource.exists()) {
+            if (resource.exists()) {
                 return resource;
             } else {
                 throw new FileException("File not found " + fileName);

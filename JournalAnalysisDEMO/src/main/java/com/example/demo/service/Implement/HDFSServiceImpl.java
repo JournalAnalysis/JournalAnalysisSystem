@@ -13,7 +13,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-//import com.janal.demo.service.HDFSService;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -31,7 +30,7 @@ public class HDFSServiceImpl implements HDFSService {
     private FileSystem fileSystem;
 
     @Override
-    public boolean createFile(String path, MultipartFile file) {
+    public boolean createFile(String path, MultipartFile file,String fileName) {
         /**
          * author:zhangxiangyu
          * 用户上传文件后获取文件
@@ -40,11 +39,11 @@ public class HDFSServiceImpl implements HDFSService {
 //        if (existFile(path)) {
 //            return false;
 //        }
-        String fileName = file.getOriginalFilename();
+
         Path newPath = new Path(path + "/" + fileName);
         FSDataOutputStream outputStream = null;
         try {
-            outputStream = fileSystem.create(newPath);
+            outputStream = fileSystem.create(newPath,true);
             outputStream.write(file.getBytes());
             outputStream.flush();
             outputStream.close();
@@ -93,6 +92,7 @@ public class HDFSServiceImpl implements HDFSService {
         }
         return target;
     }
+
     public Workbook readXls(String filePath) {
         if (filePath.isEmpty()) {
             return null;
@@ -125,21 +125,17 @@ public class HDFSServiceImpl implements HDFSService {
                     String cellResult = cell.getStringCellValue();
                     Path filePath = new Path("/root/server/input/a.log");
                     FSDataOutputStream fsDataOutputStream = fileSystem.create(filePath);
-
                     fsDataOutputStream.write(cellResult.getBytes());
                     fsDataOutputStream.close();
 
                 }
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public static void readCSV() throws IOException {
-
 
     }
 }
