@@ -20,13 +20,13 @@ public class HiveController {
 
     @RequestMapping("/showTables")
     public List<String> hiveShowTables() throws SQLException, ClassNotFoundException {
-        List<String> list = hiveService.hiveShowTables("test");
+        List<String> list = hiveService.hiveShowTables("web_test");
         return list;
     }
 
     @RequestMapping("/queryTable")
     public List<String> hiveQueryTable() throws SQLException, ClassNotFoundException {
-        List<String> list = hiveService.hiveQueryAll("test","emp");
+        List<String> list = hiveService.hiveQueryAll("web_test","logid");
         return list;
     }
 

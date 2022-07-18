@@ -17,10 +17,16 @@ public class MysqlController {
 
     @RequestMapping("/mysqlTest")
     public String mysqlTest() throws SQLException, IOException, ClassNotFoundException {
-        String logid = "testlogid";
+        String logid = "logid";
         mysqlService.createTables(logid);
         mysqlService.createViews(logid);
-        System.out.println("testlogid");
+        System.out.println(logid);
         return logid;
+    }
+
+    @RequestMapping("/mysqlCreateGenTable")
+    public String mysqlCreateGenTable() throws SQLException, IOException, ClassNotFoundException {
+        mysqlService.createGenTables();
+        return "success";
     }
 }

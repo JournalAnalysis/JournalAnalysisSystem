@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/user")
@@ -43,10 +44,34 @@ public class UserController {
     @Autowired
     ResourceLoader resourceLoader;
 
+
+    @PostMapping("/getStaff")
+    public List<User> GetStaff(@RequestBody User user){
+
+        List<User> Users = userRepository.findByCnameAndUtypeAndUname(user.getCname(), user.getUtype(), user.getUname());
+        return Users;
+    }
+
+    @PostMapping("/changeAuth")
+    public String changeAuth(@RequestBody User user){
+        List<User> users = userRepository.findByUname(user.getUname());
+        users.get(0).setUauth(user.getUauth());
+        userRepository.save(users.get(0));
+        return "修改成功";
+    }
+
     @PostMapping("/inf")
     public List<User> Inf(@RequestBody User user){
         List<User> Users = userRepository.findByUname(user.getUname());
         return Users;
+    }
+
+    @PostMapping("/adminf")
+    public List<Company> AdmInf(@RequestBody User user){
+        List<User> Users = userRepository.findByUname(user.getUname());
+        String cname = Users.get(0).getCname();
+        List<Company> companies = companyRepository.findByCname(cname);
+        return companies;
     }
 
     @PostMapping("/changeinf")
@@ -64,28 +89,17 @@ public class UserController {
         return "修改成功！";
     }
 
-    //上传单个文件
-//    @RequestMapping("/upload/file")
-//    public String uploadFile(
-//            @RequestParam("file") MultipartFile file){
-//
-//        String fileName = fileService.storeFile(file);
-//        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                .path("/user/downloadFile/")
-//                .path(fileName)
-//                .toUriString();
-//        return file.;
-//    }
     @RequestMapping("/upload/file")
     public UploadFileResponse uploadFile(
-            @RequestParam("file") MultipartFile file){
+            @RequestParam("file") MultipartFile file,@RequestParam("uname") String uname){
 
-        String fileName = fileService.storeFile(file);
+        String fileName = fileService.storeFile(file,uname);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/user/downloadFile/")
                 .path(fileName)
                 .toUriString();
-
+        //获取上传用户名
+        System.out.println(uname);
         return new UploadFileResponse(fileName, fileDownloadUri,
                 file.getContentType(), file.getSize());
     }
@@ -95,10 +109,25 @@ public class UserController {
 
         String path = System.getProperty("user.dir")+"/uploads/"+log.getLogid();
         log.setLoglocation(path);
+        log.setLogstate("underway");
         logRepository.save(log);
         return "上传成功！";
 
     }
+
+    @RequestMapping("/upload/address")
+    public String uploadLink(@RequestBody Log log){
+        int max=10000;
+        int min=1000;
+        Random random = new Random();
+        String code = String.valueOf(random.nextInt(max) % (max - min + 1) + min);
+        String logid = code + log.getLogname();
+        log.setLogid(logid);
+        log.setLogstate("underway");
+        logRepository.save(log);
+        return "上传成功！";
+    }
+
     //下载日志文件
     @RequestMapping("/downloadFile/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
