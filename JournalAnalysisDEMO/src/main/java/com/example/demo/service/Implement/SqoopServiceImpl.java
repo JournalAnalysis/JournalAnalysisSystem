@@ -39,15 +39,19 @@ public class SqoopServiceImpl implements SqoopService {
 //        String sshUserName = "root";
 //        String sshUserPwd = "root";
         Boolean result = OperateLinuxCommand.login(ip, username, password);
-//        String cmd = "/opt/server/sqoop-1.4.7.bin__hadoop-2.6.0/bin/sqoop export --connect \"jdbc:mysql://192.168.146.1:3306/janal?useUnicode=true&characterEncoding=utf-8\" --username root --password root --table logid_url_top --export-dir /user/hive/warehouse/access_log_url_top --input-fields-terminated-by '\\001'"; //操作shell脚本（可以把多个明林感谢在一个脚本中批量执行）
+//        String cmd = "/opt/server/sqoop-1.4.7.bin__hadoop-2.6.0/bin/sqoop export
+//        --connect \"jdbc:mysql://192.168.146.1:3306/janal?useUnicode=true&characterEncoding=utf-8\"
+//        --username root --password root --table logid_url_top
+//        --export-dir /user/hive/warehouse/access_log_url_top
+//        --input-fields-terminated-by '\\001'"; //操作shell脚本（可以把多个明林感谢在一个脚本中批量执行）
 
         String cmdHead = sqoopPath+"/sqoop export ";
         String[] paras = new String[]{
-                "--connect","\"jdbc:mysql://192.168.146.1:3306/janal?useUnicode=true&characterEncoding=utf-8\"",
-                "--username", "root",
-                "--password","root",
-                "--table", "logid_url_top",
-                "--export-dir", "/user/hive/warehouse/access_log_url_top",
+                "--connect","\""+ connect+"\"",
+                "--username", username,
+                "--password",password,
+                "--table", table,
+                "--export-dir", srcdir,
                 "--input-fields-terminated-by", "'\001'"
         };
         String cmdBody =parasToString(paras);
