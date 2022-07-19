@@ -88,6 +88,13 @@ public class LogController {
         return list;
     }
 
+    @PostMapping("/topN")
+    public RandomAccess TopN(@RequestBody String logid) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT url as name,value as value FROM web_test." + logid + "_top10";
+        ArrayList list = mysqlUtil.execSelectSql(sql);
+        return list;
+    }
+
     @PostMapping("/browser")
     public RandomAccess Browser(@RequestBody String logid) throws SQLException, ClassNotFoundException {
         String sql = "SELECT browser as name,number as value FROM web_test." + logid + "_browser";
@@ -104,7 +111,7 @@ public class LogController {
 
     @PostMapping("/time")
     public RandomAccess Time(@RequestBody String logid) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT ref_type as name,number as value FROM web_test." + logid + "_time";
+        String sql = "SELECT time as name,value as value FROM web_test." + logid + "_access_time";
         ArrayList list = mysqlUtil.execSelectSql(sql);
         return list;
     }
