@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
@@ -24,11 +25,10 @@ public class MapreduceController {
 
     @RequestMapping("/CsvMap")
     @ResponseBody
-    public void csvMap(
-    ){
+    public void csvMap(String uname){
         try{
-            String inputPath="/input";
-            String outputPath="hdfs://192.168.146.130:8020/output";
+            String inputPath="hdfs://120.55.45.150:8020/input/"+uname;
+            String outputPath="hdfs://120.55.45.150:8020/output/"+uname;
             List<String> inputs=service.listFile(inputPath);
             List<String> outputs=service.listFile(outputPath);
             String finalInputPath = inputPath;

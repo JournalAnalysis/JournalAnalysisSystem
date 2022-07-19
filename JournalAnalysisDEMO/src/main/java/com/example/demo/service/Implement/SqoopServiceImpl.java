@@ -43,9 +43,9 @@ public class SqoopServiceImpl implements SqoopService {
 
         String cmdHead = sqoopPath+"/sqoop export ";
         String[] paras = new String[]{
-                "--connect","\"jdbc:mysql://192.168.146.130:3306/web_test?useUnicode=true&characterEncoding=utf-8\"",
+                "--connect","\"jdbc:mysql://120.55.45.150:3306/web_test?useUnicode=true&characterEncoding=utf-8\"",
                 "--username", "root",
-                "--password","Root_12root",
+                "--password","123456",
                 "--table", "logid_url_top",
                 "--export-dir", "/user/hive/warehouse/access_log_url_top",
                 "--input-fields-terminated-by", "'\001'"

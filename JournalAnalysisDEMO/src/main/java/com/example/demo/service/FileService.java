@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.Repository.FileException;
 import com.example.demo.Repository.FileProperties;
+import com.example.demo.controller.MapreduceController;
+import com.example.demo.controller.XlsController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
@@ -30,7 +32,11 @@ public class FileService {
     public HDFSService hdfsService;
     @Autowired
     public HiveService hiveService;
+    @Autowired
+    public XlsController xlsController;
 
+    @Autowired
+    public MapreduceController mapreduceController;
 
 
     @Autowired
@@ -75,6 +81,12 @@ public class FileService {
             String hadoopInputDir = "/input/" + uname;
             String hadoopOutputDir="/output/"+uname;
             hdfsService.createFile(hadoopInputDir,hadoopOutputDir,file, fileName);
+            if(fileOrgName.contains("xls")||fileOrgName.contains("xlsx")){
+                xlsController.xlsResult(uname);
+            }
+            if(fileOrgName.contains("csv")){
+                mapreduceController.csvMap(uname);
+            }
             //load data to hive
 //            String hadoopFilePath = hadoopDir + "/" + fileName;
 //            String logid = fileName;//.substring(0,fileName.lastIndexOf("."));

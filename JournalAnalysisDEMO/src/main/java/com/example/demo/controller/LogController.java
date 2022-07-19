@@ -36,7 +36,7 @@ public class LogController {
     private String GetConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/web_test", "root", "Book091212");
+            connection = DriverManager.getConnection("jdbc:mysql://120.55.45.150:3306/web_test", "root", "123456");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -318,7 +318,7 @@ public class LogController {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/web_test", "root", "Book091212");
+            connection = DriverManager.getConnection("jdbc:mysql://120.55.45.150:3306/web_test", "root", "Book091212");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {

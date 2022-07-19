@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,10 +24,11 @@ public class XlsController {
 
     @RequestMapping("/xlsResult")
     @ResponseBody
-    public String xlsResult(){
+    public String xlsResult(String uname){
+
         try{
-            String inputPath="/input";
-            String outputPath="/output";
+            String inputPath="/input/"+uname;
+            String outputPath="/output/"+uname;
             List<String> inputs=hdfsService.listFile(inputPath);
             List<String> outputs=hdfsService.listFile(outputPath);
             inputs.forEach(item->{
