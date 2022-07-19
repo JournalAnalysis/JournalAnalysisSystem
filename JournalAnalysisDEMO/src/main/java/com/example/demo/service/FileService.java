@@ -55,7 +55,9 @@ public class FileService {
         code = String.valueOf(random.nextInt(max)%(max-min+1)+min);
         // Normalize file name
 //        String fileName = code+ StringUtils.cleanPath(file.getOriginalFilename());
-        String fileName = "log" + code;
+        System.out.println(file.getOriginalFilename());
+        String fileOrgName = file.getOriginalFilename();
+        String fileName = "log" + code+fileOrgName.substring(fileOrgName.lastIndexOf("."));
         try {
             // Check if the file's name contains invalid characters
             if (fileName.contains("..")) {
@@ -69,17 +71,17 @@ public class FileService {
             String hadoopDir = "/input/" + uname;
             hdfsService.createFile("/input/" + uname, file, fileName);
             //load data to hive
-            String hadoopFilePath = hadoopDir + "/" + fileName;
-            String logid = fileName;//.substring(0,fileName.lastIndexOf("."));
-            hiveService.loadData(hadoopFilePath,logid,uname);
+//            String hadoopFilePath = hadoopDir + "/" + fileName;
+//            String logid = fileName;//.substring(0,fileName.lastIndexOf("."));
+//            hiveService.loadData(hadoopFilePath,logid,uname);
 
             return fileName;
         } catch (IOException ex) {
             throw new FileException("Could not store file " + fileName + ". Please try again!", ex);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
         }
     }
 
