@@ -108,7 +108,7 @@ public class HiveService {
 //        }
         List<Log> currentLog = logRepository.findByLogid(logid);
         int complete = 0;
-        int total = 16;
+        int total = 21;
         //分析数据
         //1、建表
         System.out.println("上传文件到hadoop");
@@ -146,16 +146,36 @@ public class HiveService {
         System.out.println("建立MySQL接收数据表");
         mysqlService.createTables(logid);
         mysqlService.createViews(logid);
+        complete++;
+        if (currentLog.isEmpty()) {
+            currentLog = logRepository.findByLogid(logid);
+        } else {
+            currentLog.get(0).setLogstate(complete * 1.0 / total * 100 + "%");
+            logRepository.save(currentLog.get(0));
+        }
 
         //4、使用sqoop导出数据
         System.out.println("sqoop导出数据");
-        String[] exportTable = {"", "_first", "_url_top", "_ip_black"};
+        String[] exportTableArr = {"", "_first", "_url_top", "_ip_black"};
         String hadoopExtDir = "/user/hive/warehouse/janal.db/";
-        for (int i = 0; i < exportTable.length; i++) {
+        for (int i = 0; i < exportTableArr.length; i++) {
             System.out.println("第" + i + "张表");
-            sqoopService.hdfsToMysql(hadoopExtDir + logid + exportTable, logid + exportTable);
+            sqoopService.hdfsToMysql(hadoopExtDir + logid + exportTableArr[i], logid + exportTableArr[i]);
+            complete++;
+            if (currentLog.isEmpty()) {
+                currentLog = logRepository.findByLogid(logid);
+            } else {
+                currentLog.get(0).setLogstate(complete * 1.0 / total * 100 + "%");
+                logRepository.save(currentLog.get(0));
+            }
         }
+        if (currentLog.isEmpty()) {
+            currentLog = logRepository.findByLogid(logid);
+        } else {
 
+            currentLog.get(0).setLogstate("finish");
+            logRepository.save(currentLog.get(0));
+        }
         stmt.close();
         conn.close();
         return list;

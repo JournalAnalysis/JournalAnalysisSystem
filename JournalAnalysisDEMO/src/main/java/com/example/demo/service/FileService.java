@@ -93,7 +93,7 @@ public class FileService {
             hiveService.loadData(hadoopFilePath,logid,uname);
 
 
-            return fileName;
+            return fileName.substring(0,fileName.lastIndexOf("."));
         } catch (IOException ex) {
             throw new FileException("Could not store file " + fileName + ". Please try again!", ex);
         } catch (SQLException e) {
