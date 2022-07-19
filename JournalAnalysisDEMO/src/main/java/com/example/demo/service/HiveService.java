@@ -28,6 +28,10 @@ public class HiveService {
 
     @Autowired
     private LogRepository logRepository;
+    @Autowired
+    private SqoopService sqoopService;
+    @Autowired
+    private MysqlService mysqlService;
 
     public List<String> hiveShowTables(String databaseName) throws SQLException, ClassNotFoundException {
         Class.forName(hiveDriver);
@@ -81,8 +85,9 @@ public class HiveService {
         conn.close();
         return list;
     }
+
     @Async
-    public List<String> loadData(String inputPath, String logid, String uname) throws ClassNotFoundException, SQLException, IOException {
+    public List<String> loadData(String inputPath, String logid, String uname) throws Exception {
         Class.forName(hiveDriver);
         Connection conn = DriverManager.getConnection(hiveUrl, hiveUser, hivePwd);
         Statement stmt = conn.createStatement();
@@ -106,34 +111,51 @@ public class HiveService {
         int total = 16;
         //分析数据
         //1、建表
+        System.out.println("上传文件到hadoop");
         String[] createSqlArr = createTables(logid);
         for (int i = 0; i < createSqlArr.length - 1; i++) {
             System.out.println(createSqlArr[i]);
             stmt.execute(createSqlArr[i]);
             complete++;
-            if(currentLog.isEmpty()){
+            if (currentLog.isEmpty()) {
                 currentLog = logRepository.findByLogid(logid);
-            }else{
-                currentLog.get(0).setLogstate(complete*1.0/total*100+"%");
+            } else {
+                currentLog.get(0).setLogstate(complete * 1.0 / total * 100 + "%");
                 logRepository.save(currentLog.get(0));
             }
 
         }
 
         //2、向表内插入数据
+        System.out.println("hive加载并分析数据");
         String[] insertSqlArr = analysisData(logid);
         for (int i = 0; i < insertSqlArr.length - 1; i++) {
             stmt.execute(insertSqlArr[i]);
             System.out.println(insertSqlArr[i]);
             complete++;
-            if(currentLog.isEmpty()){
+            if (currentLog.isEmpty()) {
                 currentLog = logRepository.findByLogid(logid);
-            }else{
-                System.out.println(complete*1.0/total*100+"%");
-                currentLog.get(0).setLogstate(complete*1.0/total*100+"%");
+            } else {
+                System.out.println(complete * 1.0 / total * 100);
+                currentLog.get(0).setLogstate(complete * 1.0 / total * 100+"");
                 logRepository.save(currentLog.get(0));
             }
         }
+
+        //3、建立mysql表用来接收导出数据
+        System.out.println("建立MySQL接收数据表");
+        mysqlService.createTables(logid);
+        mysqlService.createViews(logid);
+
+        //4、使用sqoop导出数据
+        System.out.println("sqoop导出数据");
+        String[] exportTable = {"", "_first", "_url_top", "_ip_black"};
+        String hadoopExtDir = "/user/hive/warehouse/janal.db/";
+        for (int i = 0; i < exportTable.length; i++) {
+            System.out.println("第" + i + "张表");
+            sqoopService.hdfsToMysql(hadoopExtDir + logid + exportTable, logid + exportTable);
+        }
+
         stmt.close();
         conn.close();
         return list;
@@ -141,26 +163,27 @@ public class HiveService {
 
     public String[] createTables(String logid) throws IOException {
         String tmplt = readFile("./sqlTemplates/create hive logid_table.sql");
-        tmplt = tmplt.replaceAll("logid",logid);
+        tmplt = tmplt.replaceAll("logid", logid);
         String[] sqlList = tmplt.split(";");
 
         return sqlList;
     }
 
-    public String[] analysisData(String logid) throws IOException{
+    public String[] analysisData(String logid) throws IOException {
         String tmplt = readFile("./sqlTemplates/insert hive logid_data.sql");
-        tmplt = tmplt.replaceAll("logid",logid);
+        tmplt = tmplt.replaceAll("logid", logid);
         String[] sqlList = tmplt.split(";");
 
         return sqlList;
     }
+
     private String readFile(String path) throws IOException {
         File file = new File(path);
         BufferedReader br = new BufferedReader(new FileReader(file));
         String string = null;
         StringBuffer sb = new StringBuffer();
-        while((string = br.readLine()) != null){
-            sb.append(string+"\n");
+        while ((string = br.readLine()) != null) {
+            sb.append(string + "\n");
         }
         br.close();
         return sb.toString();

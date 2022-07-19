@@ -88,18 +88,18 @@ public class FileService {
                 mapreduceController.csvMap(uname);
             }
             //load data to hive
-//            String hadoopFilePath = hadoopDir + "/" + fileName;
-//            String logid = fileName;//.substring(0,fileName.lastIndexOf("."));
-//            hiveService.loadData(hadoopFilePath,logid,uname);
+            String hadoopFilePath = hadoopDir + "/" + fileName;
+            String logid = fileName.substring(0,fileName.lastIndexOf("."));
+            hiveService.loadData(hadoopFilePath,logid,uname);
 
 
             return fileName;
         } catch (IOException ex) {
             throw new FileException("Could not store file " + fileName + ". Please try again!", ex);
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        } catch (ClassNotFoundException e) {
-//            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
