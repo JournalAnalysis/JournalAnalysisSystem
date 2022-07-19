@@ -83,42 +83,49 @@ public class LogController {
 
     @PostMapping("/area")
     public RandomAccess Area(@RequestBody String logid) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT city as name,number as value FROM web_test." + logid + "_area";
+        String sql = "SELECT province as name,count as value FROM web_test." + logid + "_prov";
         ArrayList list = mysqlUtil.execSelectSql(sql);
         return list;
     }
 
     @PostMapping("/browser")
     public RandomAccess Browser(@RequestBody String logid) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT browser as name,number as value FROM web_test." + logid + "_browser";
+        String sql = "SELECT client_browser as name,count as value FROM web_test." + logid + "_brow";
         ArrayList list = mysqlUtil.execSelectSql(sql);
         return list;
     }
 
     @PostMapping("/source")
     public RandomAccess Source(@RequestBody String logid) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT ref_type as name,number as value FROM web_test." + logid + "_ref";
+        String sql = "SELECT ref_type as name,count as value FROM web_test." + logid + "_ref_type";
         ArrayList list = mysqlUtil.execSelectSql(sql);
         return list;
     }
 
     @PostMapping("/time")
     public RandomAccess Time(@RequestBody String logid) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT ref_type as name,number as value FROM web_test." + logid + "_time";
+        String sql = "SELECT access_hour as name,count as value FROM web_test." + logid + "_access_time";
         ArrayList list = mysqlUtil.execSelectSql(sql);
         return list;
     }
 
     @PostMapping("/isp")
     public RandomAccess Isp(@RequestBody String logid) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT isp as name,number as value FROM web_test." + logid + "_isp";
+        String sql = "SELECT isp as name,count as value FROM web_test." + logid + "_isp";
         ArrayList list = mysqlUtil.execSelectSql(sql);
         return list;
     }
 
     @PostMapping("/client")
     public RandomAccess Client(@RequestBody String logid) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT client as name,number as value FROM web_test." + logid + "_client";
+        String sql = "SELECT client_type as name,count as value FROM web_test." + logid + "_os";
+        ArrayList list = mysqlUtil.execSelectSql(sql);
+        return list;
+    }
+
+    @PostMapping("/topN")
+    public RandomAccess topN(@RequestBody String logid) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT url as name,times as value FROM web_test." + logid + "_top10";
         ArrayList list = mysqlUtil.execSelectSql(sql);
         return list;
     }

@@ -15,6 +15,21 @@ SELECT
     split(content,' ')[11]  AS referer,
     regexp_extract(content,'\" (".*?")$',1) AS c_info
 FROM logid_content;
+-- 使用正则表达式提取并向IP表插入数据
+INSERT OVERWRITE TABLE cz_ip
+SELECT
+    CAST(split(split(content, '\\s+')[0],'\\.')[0] AS BIGINT) * 256 * 256 * 256 +
+    CAST(split(split(content, '\\s+')[0],'\\.')[1] AS BIGINT) * 256 * 256 +
+    CAST(split(split(content, '\\s+')[0],'\\.')[2] AS BIGINT) * 256 +
+    CAST(split(split(content, '\\s+')[0],'\\.')[3] AS BIGINT) AS ip_start,
+    split(split(content, '\\s+')[0],'\\.')[0] AS ip_start_1,
+    CAST(split(split(content, '\\s+')[1],'\\.')[0] AS BIGINT) * 256 * 256 * 256 +
+    CAST(split(split(content, '\\s+')[1],'\\.')[1] AS BIGINT) * 256 * 256 +
+    CAST(split(split(content, '\\s+')[1],'\\.')[2] AS BIGINT) * 256 +
+    CAST(split(split(content, '\\s+')[1],'\\.')[3] AS BIGINT) AS ip_end,
+    split(content, '\\s+')[2] AS city,
+    split(content, '\\s+')[3] AS isp
+FROM ip_content;
 -- 从ip表中查询城市和运营商信息
 INSERT OVERWRITE TABLE logid_tmp2
 SELECT a.id, a.ip, b.city, b.isp, a.access_time, a.url, a.status_code, a.traffic, a.referer, a.c_info

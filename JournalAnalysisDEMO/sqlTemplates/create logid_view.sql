@@ -18,7 +18,7 @@ FROM
 	logid_first;
 -- 访问链接Top 10
 DROP VIEW IF EXISTS logid_top10;
-CREATE VIEW logid_top10 AS SELECT
+CREATE VIEW logid_top10 ( url, times) AS SELECT
 * 
 FROM
 	logid_url_top;
@@ -27,7 +27,7 @@ FROM
 DROP VIEW IF EXISTS logid_access_time;
 CREATE VIEW logid_access_time (
 	access_hour,
-num) AS SELECT
+count) AS SELECT
 access_hour,
 count( id ) 
 FROM
@@ -38,7 +38,7 @@ GROUP BY
 -- 访问来源占比
 DROP VIEW IF EXISTS logid_ref_type;
 CREATE VIEW logid_ref_type ( 
-ref_type, VALUE ) AS SELECT
+ref_type, count ) AS SELECT
 ref_type,
 count( ref_type )
 FROM
@@ -68,7 +68,7 @@ GROUP BY
 	
 -- 操作系统占比
 DROP VIEW IF EXISTS logid_os;
-CREATE VIEW logid_os AS 
+CREATE VIEW logid_os ( client_type, count ) AS
 SELECT
 client_type,
 count( id ) 
@@ -79,10 +79,10 @@ GROUP BY
 	
 -- 浏览器占比
 DROP VIEW IF EXISTS logid_brow;
-CREATE VIEW logid_brow AS 
+CREATE VIEW logid_brow ( client_browser, count ) AS
 SELECT
 client_browser,
-count( id ) 
+count( id )
 FROM
 	logid 
 GROUP BY
@@ -90,18 +90,28 @@ GROUP BY
 	
 -- 网络运营商占比
 DROP VIEW IF EXISTS logid_isp;
-CREATE VIEW logid_isp AS 
+CREATE VIEW logid_isp ( isp, count ) AS SELECT
+t.isp AS NAME,
+count( t.isp ) AS VALUE
+FROM(
 SELECT
-isp,
-count( isp ) 
-FROM
-	logid 
+CASE
+    WHEN INSTR( isp, "移动" ) > 0 THEN	"移动"
+    WHEN INSTR( isp, "联通" ) > 0 THEN	"联通"
+    WHEN INSTR( isp, "电信" ) > 0 THEN	"电信"
+    ELSE "其他"
+END AS isp
+    FROM
+        logid
+) t
 GROUP BY
-	client_browser;
+		t.isp
+ORDER BY
+	VALUE;
 	
 -- 搜索引擎占比
 DROP VIEW IF EXISTS logid_srch_eng;
-CREATE VIEW logid_srch_eng ( NAME, count ) AS SELECT
+CREATE VIEW logid_srch_eng ( ref_type, count ) AS SELECT
 ref_type,
 count( ref_type )
 FROM

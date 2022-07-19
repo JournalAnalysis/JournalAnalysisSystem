@@ -96,10 +96,14 @@ public class HiveService {
         String tableName = logid + "_content";
         String createSql = "CREATE TABLE " + tableName + " ( content STRING )";
         String sql = "LOAD DATA INPATH '" + inputPath + "' INTO TABLE " + tableName;
-
+        String createSql2 = "CREATE TABLE  IF NOT EXISTS ip_content(content STRING)";
+        String loadSql = "load data local inpath '/root/data/weblog/ip.txt' OVERWRITE into table ip_content";
         System.out.println("Running: " + sql);
         stmt.execute(createSql);
         stmt.execute(sql);
+        stmt.execute(createSql2);
+        stmt.execute(loadSql);
+
 
         List<String> list = new ArrayList<>();
 //        while (res.next()) {
@@ -108,7 +112,7 @@ public class HiveService {
 //        }
         List<Log> currentLog = logRepository.findByLogid(logid);
         int complete = 0;
-        int total = 21;
+        int total = 35;
         //分析数据
         //1、建表
         System.out.println("上传文件到hadoop");
