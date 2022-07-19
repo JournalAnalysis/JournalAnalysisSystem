@@ -17,6 +17,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class MysqlUtil {
@@ -44,5 +46,40 @@ public class MysqlUtil {
 
         read.close();
         sqlFile.delete();
+    }
+
+    public ArrayList execSelectSql(String sql) throws ClassNotFoundException, SQLException {
+
+        Class.forName(driver);
+        Connection connection = DriverManager.getConnection(mysqlUrl, name, pwd);
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        ResultSetMetaData m = null;
+        ArrayList list = new ArrayList();
+        try {
+//            String sql = "SELECT city as name,number as value FROM web_test." + logid + "_city";
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            m = rs.getMetaData();
+            int len = rs.getMetaData().getColumnCount();
+            while (rs.next()) {
+
+                ArrayList _list = new ArrayList();
+
+                for (int i = 1; i <= len; i++) {
+
+                    _list.add(rs.getString(i));
+
+                }
+
+                list.add(_list);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        rs.close();
+        connection.close();
+        return list;
     }
 }
