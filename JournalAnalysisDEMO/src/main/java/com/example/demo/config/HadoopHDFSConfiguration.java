@@ -33,6 +33,9 @@ public class HadoopHDFSConfiguration {
     public FileSystem getFileSystem(){
         FileSystem fileSystem = null;
         try {
+            org.apache.hadoop.conf.Configuration configuration = getConfiguration();
+            configuration.set("dfs.client.use.datanode.hostname", "true");
+
             fileSystem = FileSystem.get(new URI(hdfsPath), getConfiguration(), hdfsUser);
         } catch (IOException e) {
             // TODO Auto-generated catch block
