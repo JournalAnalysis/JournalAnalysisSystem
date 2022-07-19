@@ -30,7 +30,9 @@ public class HDFSServiceImpl implements HDFSService {
     private FileSystem fileSystem;
 
     @Override
-    public boolean createFile(String inputPath,String outputPath, MultipartFile file,String code) {
+
+    public boolean createFile(String inputPath,String outputPath, MultipartFile file,String fileName) {
+
         /**
          * author:zhangxiangyu
          * 用户上传文件后获取文件
@@ -40,15 +42,15 @@ public class HDFSServiceImpl implements HDFSService {
 //        if (existFile(path)) {
 //            return false;
 //        }
-        String fileName = code+file.getOriginalFilename();
-        if(fileName.contains(".csv")||fileName.contains(".xls")||fileName.contains("xlsx")){
+        if(file.getOriginalFilename().contains(".csv")||file.getOriginalFilename().contains(".xls")||file.getOriginalFilename().contains("xlsx")){
             newPath=new Path(inputPath+"/"+fileName);
         }else{
             newPath = new Path(outputPath + "/" + fileName);
         }
+
         FSDataOutputStream outputStream = null;
         try {
-            outputStream = fileSystem.create(newPath);
+            outputStream = fileSystem.create(newPath,true);
             outputStream.write(file.getBytes());
             outputStream.flush();
             outputStream.close();
@@ -123,50 +125,4 @@ public class HDFSServiceImpl implements HDFSService {
         return resultList;
     }
 
-//    public Workbook readXls(String filePath) {
-//        if (filePath.isEmpty()) {
-//            return null;
-//        }
-//        try {
-//            InputStream inputStream = new FileInputStream(filePath);
-//            if (filePath.contains(".xls")) {
-//                return new HSSFWorkbook(inputStream);
-//            }
-//        } catch (FileNotFoundException e) {
-//            throw new RuntimeException(e);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return null;
-//    }
-//
-//    //将用户上传的文件输出到hdfs中
-//    public void readContent(String path) {
-//        try {
-//            Workbook wb = readXls(path);
-//            for (int numSheet = 0; numSheet < wb.getNumberOfSheets(); numSheet++) {
-//                Sheet sheet = wb.getSheetAt(numSheet);
-//                if (sheet == null) {
-//                    continue;
-//                }
-//                for (int numRow = 0; numRow <= sheet.getLastRowNum(); numRow++) {
-//                    Row row = sheet.getRow(numRow);
-//                    Cell cell = row.getCell(0);
-//                    String cellResult = cell.getStringCellValue();
-//                    Path filePath = new Path("/root/server/input/a.log");
-//                    FSDataOutputStream fsDataOutputStream = fileSystem.create(filePath);
-//                    fsDataOutputStream.write(cellResult.getBytes());
-//                    fsDataOutputStream.close();
-//
-//                }
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public static void readCSV() throws IOException {
-//
-//    }
 }

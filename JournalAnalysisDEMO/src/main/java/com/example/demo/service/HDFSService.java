@@ -8,7 +8,9 @@ import java.util.Map;
 
 @Service
 public interface HDFSService {
-    public boolean createFile(String inputPath, String outputPath,MultipartFile file,String code);
+
+    public boolean createFile(String inputPath, String outputPath,MultipartFile file,String fileName);
+
 
     public boolean existFile(String path);
 

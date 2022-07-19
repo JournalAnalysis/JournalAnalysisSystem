@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.SQLException;
 import java.util.Random;
 
 @Service
@@ -27,6 +28,9 @@ public class FileService {
     @Qualifier("HDFSServiceImpl")
     @Autowired
     public HDFSService hdfsService;
+    @Autowired
+    public HiveService hiveService;
+
 
 
     @Autowired
@@ -45,38 +49,51 @@ public class FileService {
      * @param file 文件
      * @return 文件名
      */
-    public String storeFile(MultipartFile file) {
-        int max=10000;
-        int min=1000;
+    public String storeFile(MultipartFile file, String uname) {
+        int max=100000;
+        int min=10000;
         random=new Random();
         code = String.valueOf(random.nextInt(max)%(max-min+1)+min);
         // Normalize file name
-        String fileName = code+ StringUtils.cleanPath(file.getOriginalFilename());
 
+//        String fileName = code+ StringUtils.cleanPath(file.getOriginalFilename());
+        System.out.println(file.getOriginalFilename());
+        String fileOrgName = file.getOriginalFilename();
+        String fileName = "log" + code+fileOrgName.substring(fileOrgName.lastIndexOf("."));
 
         try {
             // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
+            if (fileName.contains("..")) {
                 throw new FileException("Sorry! Filename contains invalid path sequence " + fileName);
             }
 
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
             //upload to hadoop
-            String inputPath="/input";
-            String outputPath="/output";
-            hdfsService.createFile(inputPath,outputPath,file,code);
+
+            String hadoopInputDir = "/input/" + uname;
+            String hadoopOutputDir="/output/"+uname;
+            hdfsService.createFile(hadoopInputDir,hadoopOutputDir,file, fileName);
+            //load data to hive
+//            String hadoopFilePath = hadoopDir + "/" + fileName;
+//            String logid = fileName;//.substring(0,fileName.lastIndexOf("."));
+//            hiveService.loadData(hadoopFilePath,logid,uname);
+
 
             return fileName;
         } catch (IOException ex) {
             throw new FileException("Could not store file " + fileName + ". Please try again!", ex);
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
         }
     }
 
     /**
      * 加载文件
+     *
      * @param fileName 文件名
      * @return 文件
      */
@@ -84,7 +101,7 @@ public class FileService {
         try {
             Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());
-            if(resource.exists()) {
+            if (resource.exists()) {
                 return resource;
             } else {
                 throw new FileException("File not found " + fileName);

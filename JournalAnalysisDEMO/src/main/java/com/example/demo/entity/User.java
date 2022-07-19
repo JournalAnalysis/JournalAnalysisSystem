@@ -14,6 +14,10 @@ public class User {
         this.ccode = ccode;
     }
 
+
+    private String ccode;
+
+
     public String getUname() {
         return uname;
     }
@@ -88,9 +92,8 @@ public class User {
         this.utype = utype;
     }
 
-
     private String utype;
 
     private String utime;
-    private String ccode;
+
 }

@@ -43,6 +43,12 @@ public class MysqlService {
         mysqlUtil.execCreateSql(outpath);
     }
 
+    public void createGenTables() throws IOException, SQLException, ClassNotFoundException {
+        String path = "./sqlTemplates/create general_table.sql";
+
+        mysqlUtil.execCreateSql(path);
+    }
+
     private String readFile(String path) throws IOException {
         File file = new File(path);
         BufferedReader br = new BufferedReader(new FileReader(file));
