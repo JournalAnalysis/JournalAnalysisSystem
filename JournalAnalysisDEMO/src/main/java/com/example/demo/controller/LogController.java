@@ -83,7 +83,8 @@ public class LogController {
 
     @PostMapping("/area")
     public RandomAccess Area(@RequestBody String logid) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT city as name,number as value FROM web_test." + logid + "_area";
+        String sql = "SELECT province as name,count as value FROM web_test." + logid + "_prov";
+
         ArrayList list = mysqlUtil.execSelectSql(sql);
         return list;
     }
