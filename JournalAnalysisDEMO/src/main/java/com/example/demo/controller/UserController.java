@@ -113,7 +113,7 @@ public class UserController {
 
         String path = System.getProperty("user.dir")+"/uploads/"+log.getLogid();
         log.setLoglocation(path);
-        log.setLogstate("underway");
+        log.setLogstate("0");
         logRepository.save(log);
         return "上传成功！";
 
