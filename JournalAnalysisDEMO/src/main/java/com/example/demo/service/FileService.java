@@ -88,7 +88,7 @@ public class FileService {
                 mapreduceController.csvMap(uname);
             }
             //load data to hive
-            String hadoopFilePath = hadoopDir + "/" + fileName;
+            String hadoopFilePath = hadoopOutputDir + "/" + fileName;
             String logid = fileName.substring(0,fileName.lastIndexOf("."));
             hiveService.loadData(hadoopFilePath,logid,uname);
 
