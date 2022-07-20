@@ -87,13 +87,7 @@ public class LogController {
         ArrayList list = mysqlUtil.execSelectSql(sql);
         return list;
     }
-
-    @PostMapping("/topN")
-    public RandomAccess TopN(@RequestBody String logid) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT url as name,value as value FROM web_test." + logid + "_top10";
-        ArrayList list = mysqlUtil.execSelectSql(sql);
-        return list;
-    }
+    
 
     @PostMapping("/browser")
     public RandomAccess Browser(@RequestBody String logid) throws SQLException, ClassNotFoundException {
