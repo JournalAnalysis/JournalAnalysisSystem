@@ -81,7 +81,7 @@ public class UserController {
         user2.setUpassword(user.getUpassword());
         List<Company> companies = companyRepository.findByCcode(user.getCcode());
         if(!companies.isEmpty()){
-            user2.setUauth("low");
+            user2.setUauth("1");
             user2.setCname(companies.get(0).getCname());
             user2.setUtype("staff");
         }
