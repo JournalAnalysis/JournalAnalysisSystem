@@ -26,7 +26,8 @@ public class MapRedConfig {
     public org.apache.hadoop.conf.Configuration getConfiguration(){
         org.apache.hadoop.conf.Configuration configuration= new org.apache.hadoop.conf.Configuration();
         configuration.set("fs.defaultFS",hdfsPath);
-        configuration.set("mapred.job.tracker",hdfsPath);
+        configuration.set("mapreduce.jobtracker.address",hdfsPath);
+        configuration.set("dfs.client.use.datanode.hostname", "true");
         return configuration;
     }
 
@@ -36,8 +37,10 @@ public class MapRedConfig {
         org.apache.hadoop.conf.Configuration conf =getConfiguration();
         Job job =Job.getInstance(conf,jobName);
         job.setMapperClass(CleanMapper.class);
+        job.setMapOutputKeyClass(Text.class);
+        job.setMapOutputValueClass(CsvBean.class);
         job.setCombinerClass(CleanReduce.class);
-        job.setJarByClass(DemoApplication.class);
+        job.setJarByClass(MapRedConfig.class);
         job.setReducerClass(CleanReduce.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(CsvBean.class);
@@ -47,22 +50,22 @@ public class MapRedConfig {
         log.info("Testing mapreduce");
 
     }
-    public void getXlsReduceJobsConf(String jobName, Path inputPath,Path outputPath)
-            throws IOException,ClassNotFoundException,InterruptedException
-    {
-        org.apache.hadoop.conf.Configuration conf =getConfiguration();
-        Job job =Job.getInstance(conf,jobName);
-        job.setMapperClass(CleanMapper.class);
-        job.setCombinerClass(CleanReduce.class);
-        job.setJarByClass(DemoApplication.class);
-        job.setReducerClass(CleanReduce.class);
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(CsvBean.class);
-        FileInputFormat.addInputPath(job,inputPath);
-        FileOutputFormat.setOutputPath(job,outputPath);
-        job.waitForCompletion(true);
-        log.info("Testing mapreduce");
-
-
-    }
+//    public void getXlsReduceJobsConf(String jobName, Path inputPath,Path outputPath)
+//            throws IOException,ClassNotFoundException,InterruptedException
+//    {
+//        org.apache.hadoop.conf.Configuration conf =getConfiguration();
+//        Job job =Job.getInstance(conf,jobName);
+//        job.setMapperClass(CleanMapper.class);
+//        job.setCombinerClass(CleanReduce.class);
+//        job.setJarByClass(DemoApplication.class);
+//        job.setReducerClass(CleanReduce.class);
+//        job.setOutputKeyClass(Text.class);
+//        job.setOutputValueClass(CsvBean.class);
+//        FileInputFormat.addInputPath(job,inputPath);
+//        FileOutputFormat.setOutputPath(job,outputPath);
+//        job.waitForCompletion(true);
+//        log.info("Testing mapreduce");
+//
+//
+//    }
 }

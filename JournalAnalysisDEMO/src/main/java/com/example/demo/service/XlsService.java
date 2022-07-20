@@ -39,7 +39,7 @@ public class XlsService {
             if (sheet == null) {
                 continue;
             }
-            result=new Cell[sheet.getLastRowNum()+1][7];
+            result=new Cell[sheet.getLastRowNum()+1][8];
             for (int numRow = 0; numRow <= sheet.getLastRowNum(); numRow++) {
                 Row row = sheet.getRow(numRow);
                 for (int numCell = 0; numCell < row.getLastCellNum(); numCell++) {
@@ -60,17 +60,16 @@ public class XlsService {
         try {
             Path src=new Path(srcPath+"/"+fileName);
             FSDataInputStream fsDataInputStream=fileSystem.open(src);
-            if(fileName.contains("xls")){
-                return new HSSFWorkbook(fsDataInputStream);
-            }
             if(fileName.contains("xlsx")){
                 return new XSSFWorkbook(fsDataInputStream);
+            }
+            else{
+                return new HSSFWorkbook(fsDataInputStream);
             }
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
     public static String getValue(Cell cell) {
         String val = null;
@@ -112,25 +111,25 @@ public class XlsService {
         try {
             Cell[][] cells=readXls(srcLocation,filename);
             String modifiedFileName = "";
-                if (filename.contains("xls")) {
-                    modifiedFileName = filename.replace("xls", "log");
-                }
-                if (filename.contains("xlsx")) {
-                    modifiedFileName = filename.replace("xlsx", "log");
-                }
-                Path src = new Path(targetLocation + "/" + modifiedFileName);
-                FSDataOutputStream fsDataOutputStream = fileSystem.create(src);
+            if (filename.contains("xlsx")) {
+                modifiedFileName = filename.replace("xlsx", "log");
+            }
+            else {
+                modifiedFileName = filename.replace("xls", "log");
+            }
+
+            Path src = new Path(targetLocation + "/" + modifiedFileName);
+            FSDataOutputStream fsDataOutputStream = fileSystem.create(src);
             for (int i = 0; i < cells.length; i++) {
-                for (int j = 0; j < cells[i].length; j++) {
-                    cells[i][j].setCellType(CellType.STRING);
-                }
-                outValue.setIp(getValue(cells[i][0]));
-                outValue.setAccess_time(getValue(cells[i][1]));
-                outValue.setUrl(getValue(cells[i][2]));
-                outValue.setStatus_code(getValue(cells[i][3]));
-                outValue.setTraffic(getValue(cells[i][4]));
-                outValue.setReferer(getValue(cells[i][5]));
-                outValue.setClient(getValue(cells[i][6]));
+
+                outValue.setId(getValue(cells[i][0]));
+                outValue.setIp(getValue(cells[i][1]));
+                outValue.setAccess_time(getValue(cells[i][2]));
+                outValue.setUrl(getValue(cells[i][3]));
+                outValue.setStatus_code(getValue(cells[i][4]));
+                outValue.setTraffic(getValue(cells[i][5]));
+                outValue.setReferer(getValue(cells[i][6]));
+                outValue.setClient(getValue(cells[i][7]));
                 fsDataOutputStream.write(outValue.toString().getBytes());
             }
             fsDataOutputStream.close();

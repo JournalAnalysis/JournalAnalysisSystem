@@ -27,21 +27,27 @@ public class XlsController {
     public String xlsResult(String uname){
 
         try{
-            String inputPath="/input/"+uname;
-            String outputPath="/output/"+uname;
+            String inputPath="hdfs://120.55.45.150:8020/input/"+uname;
+            String outputPath="hdfs://120.55.45.150:8020/output/"+uname;
             List<String> inputs=hdfsService.listFile(inputPath);
             List<String> outputs=hdfsService.listFile(outputPath);
             inputs.forEach(item->{
-                        if(!outputs.contains(item)){
-                            if(item.contains(".xls")||item.contains(".xlsx")){
-                                try {
-                                    xlsService.readXlsContent(outputPath,inputPath,item);
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                                System.out.println(item);
-                            }
-                        }
+                       outputs.forEach(
+                               i->{
+                                   if(i.substring(0,i.lastIndexOf("."))!=item.substring(0, i.lastIndexOf("."))){
+                                     if(item.contains(".xls")||item.contains("xlsx")){
+                                        try{
+                                            xlsService.readXlsContent(outputPath,inputPath,item);
+                                            System.out.println("Ok");
+                                        }
+                                        catch (IOException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                        System.out.println(item);
+                                     }
+                                   }
+                               }
+                       );
                     }
             );
             return "OK";

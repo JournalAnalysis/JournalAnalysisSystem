@@ -14,11 +14,20 @@ public class CsvBean implements Writable {
     private String referer;
     private String client;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
 
     private String traffic;
     public CsvBean(){}
 
-    public CsvBean(String ip,String access_time,String url,String status,String referer,String client){
+    public CsvBean(String ip, String access_time, String url, String status, String referer, String client, String id){
         this.ip=ip;
         this.access_time=access_time;
         this.url=url;
@@ -26,6 +35,7 @@ public class CsvBean implements Writable {
         this.status_code=status;
         this.client=client;
 
+        this.id = id;
     }
     public String getIp() {
         return ip;
@@ -81,11 +91,12 @@ public class CsvBean implements Writable {
 
     @Override
     public String toString(){
-        return ip+" "+access_time+" "+url+" "+status_code+" "+traffic+" "+referer+" "+client+"\n";
+        return id+" "+ip+" -- "+access_time+" "+url+" "+status_code+" "+traffic+" "+referer+" "+client+"\n";
     }
 
     @Override
     public void write(DataOutput dataOutput) throws IOException {
+        dataOutput.writeUTF(id);
         dataOutput.writeUTF(ip);
         dataOutput.writeUTF(access_time);
         dataOutput.writeUTF(url);
@@ -97,11 +108,14 @@ public class CsvBean implements Writable {
 
     @Override
     public void readFields(DataInput dataInput) throws IOException {
-      this.ip=dataInput.readUTF();
-      this.access_time=dataInput.readUTF();
-      this.url=dataInput.readUTF();
-      this.referer=dataInput.readUTF();
-      this.client=dataInput.readUTF();
-      this.traffic=dataInput.readUTF();
+        this.id=dataInput.readUTF();
+        this.ip=dataInput.readUTF();
+        this.access_time=dataInput.readUTF();
+        this.url=dataInput.readUTF();
+        this.status_code= dataInput.readUTF();
+        this.traffic=dataInput.readUTF();
+        this.referer=dataInput.readUTF();
+        this.client=dataInput.readUTF();
+
     }
 }

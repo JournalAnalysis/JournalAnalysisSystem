@@ -7,6 +7,15 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 public class XlsBean implements Writable {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
     private String ip;
     private String access_time;
     private String url;
@@ -71,10 +80,11 @@ public class XlsBean implements Writable {
 
     @Override
     public String toString(){
-     return ip+" "+access_time+" "+url+" "+status_code+" "+traffic+" "+referer+" "+client+"\n";
+     return id+" "+ip+" -- "+access_time+" "+url+" "+status_code+" "+traffic+" "+referer+" "+client+"\n";
     }
     @Override
     public void write(DataOutput dataOutput) throws IOException {
+        dataOutput.writeUTF(id);
         dataOutput.writeUTF(ip);
         dataOutput.writeUTF(access_time);
         dataOutput.writeUTF(url);
@@ -86,11 +96,14 @@ public class XlsBean implements Writable {
 
     @Override
     public void readFields(DataInput dataInput) throws IOException {
+        this.id=dataInput.readUTF();
         this.ip=dataInput.readUTF();
         this.access_time=dataInput.readUTF();
         this.url=dataInput.readUTF();
+        this.status_code=dataInput.readUTF();
+        this.traffic=dataInput.readUTF();
         this.referer=dataInput.readUTF();
         this.client=dataInput.readUTF();
-        this.traffic=dataInput.readUTF();
+
     }
 }

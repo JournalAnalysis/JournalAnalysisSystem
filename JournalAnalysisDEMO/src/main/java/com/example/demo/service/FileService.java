@@ -65,6 +65,7 @@ public class FileService {
 //        String fileName = code+ StringUtils.cleanPath(file.getOriginalFilename());
         System.out.println(file.getOriginalFilename());
         String fileOrgName = file.getOriginalFilename();
+        assert fileOrgName != null;
         String fileName = "log" + code+fileOrgName.substring(fileOrgName.lastIndexOf("."));
 
         try {
@@ -83,11 +84,19 @@ public class FileService {
             hdfsService.createFile(hadoopInputDir,hadoopOutputDir,file, fileName);
             if(fileOrgName.contains("xls")||fileOrgName.contains("xlsx")){
                 xlsController.xlsResult(uname);
+                if(fileName.equals("xlsx")){
+                 fileName=fileName.replace(".xlsx",".log");
+                }
+                else{
+                    fileName=fileName.replace(".xls",".log");
+                }
             }
             if(fileOrgName.contains("csv")){
                 mapreduceController.csvMap(uname);
+                fileName=fileName.replace(".csv",".log");
             }
             //load data to hive
+
             String hadoopFilePath = hadoopOutputDir + "/" + fileName;
             String logid = fileName.substring(0,fileName.lastIndexOf("."));
             hiveService.loadData(hadoopFilePath,logid,uname);
