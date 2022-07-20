@@ -120,7 +120,7 @@ public class HiveService {
             if (currentLog.isEmpty()) {
                 currentLog = logRepository.findByLogid(logid);
             } else {
-                currentLog.get(0).setLogstate(complete * 1.0 / total * 100 + "%");
+                currentLog.get(0).setLogstate((int)(complete * 1.0 / total * 100) + "");
                 logRepository.save(currentLog.get(0));
             }
 
@@ -137,7 +137,7 @@ public class HiveService {
                 currentLog = logRepository.findByLogid(logid);
             } else {
                 System.out.println(complete * 1.0 / total * 100);
-                currentLog.get(0).setLogstate(complete * 1.0 / total * 100+"");
+                currentLog.get(0).setLogstate((int)(complete * 1.0 / total * 100) + "");
                 logRepository.save(currentLog.get(0));
             }
         }
@@ -150,7 +150,7 @@ public class HiveService {
         if (currentLog.isEmpty()) {
             currentLog = logRepository.findByLogid(logid);
         } else {
-            currentLog.get(0).setLogstate(complete * 1.0 / total * 100 + "%");
+            currentLog.get(0).setLogstate((int)(complete * 1.0 / total * 100) + "");
             logRepository.save(currentLog.get(0));
         }
 
@@ -165,7 +165,7 @@ public class HiveService {
             if (currentLog.isEmpty()) {
                 currentLog = logRepository.findByLogid(logid);
             } else {
-                currentLog.get(0).setLogstate(complete * 1.0 / total * 100 + "%");
+                currentLog.get(0).setLogstate((int)(complete * 1.0 / total * 100) + "");
                 logRepository.save(currentLog.get(0));
             }
         }
