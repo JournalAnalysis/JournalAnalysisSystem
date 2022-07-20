@@ -3,6 +3,7 @@ import com.example.demo.DemoApplication;
 import com.example.demo.bean.CsvBean;
 import com.example.demo.mapper.CleanMapper;
 import com.example.demo.reduce.CleanReduce;
+import com.example.demo.service.Implement.MapreduceServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -14,7 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
-
+import org.apache.hadoop.mapreduce.lib.output.LazyOutputFormat;
 import java.io.IOException;
 @Slf4j
 @Component
@@ -36,17 +37,23 @@ public class MapRedConfig {
     {
         org.apache.hadoop.conf.Configuration conf =getConfiguration();
         Job job =Job.getInstance(conf,jobName);
+        job.setJarByClass(MapreduceServiceImpl.class);
+        job.setCombinerClass(CleanReduce.class);
+
         job.setMapperClass(CleanMapper.class);
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(CsvBean.class);
-        job.setCombinerClass(CleanReduce.class);
-        job.setJarByClass(MapRedConfig.class);
+
+
         job.setReducerClass(CleanReduce.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(CsvBean.class);
+
         FileInputFormat.addInputPath(job,inputPath);
         FileOutputFormat.setOutputPath(job,outputPath);
+
         job.waitForCompletion(true);
+
         log.info("Testing mapreduce");
 
     }

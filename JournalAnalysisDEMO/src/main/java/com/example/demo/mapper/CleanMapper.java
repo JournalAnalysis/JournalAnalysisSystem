@@ -44,7 +44,11 @@ public class CleanMapper extends Mapper<LongWritable, Text, Text, CsvBean> {
     @Override
     protected void map(LongWritable key, Text value, Mapper<LongWritable,Text,Text,CsvBean>.Context context) throws IOException, InterruptedException {
         String line=value.toString();
-        String[] csvComments=line.split(",");
+        String[] csvComments=line.split(",",-1);
+        System.out.println(csvComments.length);
+        if(csvComments.length==9){
+            csvComments[7]=csvComments[7]+","+csvComments[8];
+        }
         String id=csvComments[0];
         String ip=csvComments[1];
         String access_time=csvComments[2];

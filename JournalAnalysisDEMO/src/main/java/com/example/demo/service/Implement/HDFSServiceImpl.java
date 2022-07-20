@@ -93,7 +93,7 @@ public class HDFSServiceImpl implements HDFSService {
         }
         Path src = new Path(path);
         try {
-            target = fileSystem.deleteOnExit(src);
+            target = fileSystem.delete(src,true);
         } catch (IOException e) {
             log.error(e.getMessage());
         }

@@ -31,24 +31,22 @@ public class XlsController {
             String outputPath="hdfs://120.55.45.150:8020/output/"+uname;
             List<String> inputs=hdfsService.listFile(inputPath);
             List<String> outputs=hdfsService.listFile(outputPath);
-            inputs.forEach(item->{
-                       outputs.forEach(
-                               i->{
-                                   if(i.substring(0,i.lastIndexOf("."))!=item.substring(0, i.lastIndexOf("."))){
-                                     if(item.contains(".xls")||item.contains("xlsx")){
-                                        try{
-                                            xlsService.readXlsContent(outputPath,inputPath,item);
-                                            System.out.println("Ok");
-                                        }
-                                        catch (IOException e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                        System.out.println(item);
-                                     }
-                                   }
-                               }
-                       );
+            inputs.forEach(item-> outputs.forEach(
+                    i->{
+                        if(i.substring(0,i.lastIndexOf("."))!=item.substring(0, i.lastIndexOf("."))){
+                          if(item.contains(".xls")||item.contains("xlsx")){
+                             try{
+                                 xlsService.readXlsContent(outputPath,inputPath,item);
+                                 System.out.println("Ok");
+                             }
+                             catch (IOException e) {
+                                 throw new RuntimeException(e);
+                             }
+                             System.out.println(item);
+                          }
+                        }
                     }
+            )
             );
             return "OK";
         }

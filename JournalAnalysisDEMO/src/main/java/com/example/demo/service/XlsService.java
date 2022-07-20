@@ -39,13 +39,15 @@ public class XlsService {
             if (sheet == null) {
                 continue;
             }
-            result=new Cell[sheet.getLastRowNum()+1][8];
+            result=new Cell[sheet.getLastRowNum()+1][];
             for (int numRow = 0; numRow <= sheet.getLastRowNum(); numRow++) {
                 Row row = sheet.getRow(numRow);
-                for (int numCell = 0; numCell < row.getLastCellNum(); numCell++) {
-                    result[numRow][numCell]=row.getCell(numCell);
-                }
+                Cell[] tmpResult=new Cell[row.getLastCellNum()];
 
+                for (int numCell = 0; numCell < row.getLastCellNum(); numCell++) {
+                    tmpResult[numCell]=row.getCell(numCell);
+                }
+                result[numRow]=tmpResult;
             }
 
         }

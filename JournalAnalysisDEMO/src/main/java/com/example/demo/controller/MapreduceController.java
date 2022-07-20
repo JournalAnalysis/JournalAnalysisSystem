@@ -36,31 +36,29 @@ public class MapreduceController {
             System.out.println(Arrays.toString(outputs.toArray()));
             AtomicReference<String> finalInputPath = new AtomicReference<>("");
             AtomicReference<String> finalOutputPath = new AtomicReference<>("");
-            inputs.forEach(item -> {
-                        outputs.forEach(i -> {
-                                    if (i.substring(0, i.lastIndexOf(".")) != item.substring(0, i.lastIndexOf("."))) {
-                                        try {
-                                            if (item.contains(".csv")) {
-                                                finalOutputPath.set(outputPath + "/" + item.replace("csv", "log"));
-                                                finalInputPath.set(inputPath + "/" + item);
-                                                mapreduceService.cleanCSV(item.substring(0, item.lastIndexOf(".")), finalInputPath.get(), finalOutputPath.get());
-                                                System.out.println(item);
-                                            }
-                                        } catch (IOException e) {
-                                            throw new RuntimeException(e);
-                                        } catch (ClassNotFoundException e) {
-                                            throw new RuntimeException(e);
-                                        } catch (InterruptedException e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                    }
-                                    else{
-                                        log.error("FileAlreadyExists!");
-
-                                    }
+            inputs.forEach(item -> outputs.forEach(i -> {
+                        if (i.substring(0, i.lastIndexOf(".")) != item.substring(0, i.lastIndexOf("."))) {
+                            try {
+                                if (item.contains(".csv")) {
+                                    finalOutputPath.set(outputPath + "/" + item.replace("csv", "log"));
+                                    finalInputPath.set(inputPath + "/" + item);
+                                    mapreduceService.cleanCSV(item.substring(0, item.lastIndexOf(".")), finalInputPath.get(), finalOutputPath.get());
+                                    System.out.println(item);
                                 }
-                        );
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            } catch (ClassNotFoundException e) {
+                                throw new RuntimeException(e);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        else{
+                            log.error("FileAlreadyExists!");
+
+                        }
                     }
+            )
             );
         }
         catch (Exception e){
